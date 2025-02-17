@@ -15,7 +15,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <Box textAlign="center" py={10}>
+    <Box textAlign="center" py={10} bg="primary.50" height={"vh"}>
       <Flex justify="center" align="center" gap={4}>
         <Link href="https://vite.dev" target="_blank">
           <Box width="100px" height="100px" overflow="hidden">
@@ -51,12 +51,14 @@ function App() {
         p={6}
         borderRadius="lg"
         boxShadow="md"
-        bg="gray.50"
+        bg="primary.600"
         display="inline-block"
         mt={6}
       >
         <Button
-          colorScheme="teal"
+          _hover={{ bg: "secondary.700" }}
+          bg="secondary"
+          color="black"
           size="lg"
           onClick={() => setCount((count) => count + 1)}
         >
@@ -67,7 +69,7 @@ function App() {
         </Text>
       </Box>
 
-      <Text mt={8} color="gray.600">
+      <Text mt={8} color="gray.500">
         Click on the Vite and React logos to learn more
       </Text>
     </Box>
