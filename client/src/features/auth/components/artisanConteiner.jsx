@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, Useeffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import CardArtisan from "../../../shared/components/cardArtisan";
 

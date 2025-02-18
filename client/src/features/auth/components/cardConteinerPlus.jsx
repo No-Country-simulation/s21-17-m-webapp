@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, Useeffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Text } from "@chakra-ui/react";
 import CardLittle from "../../../shared/components/cardLittle";

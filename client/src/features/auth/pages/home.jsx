@@ -4,13 +4,13 @@ import Hero from "../components/hero";
 import CardConteinerPlus from "../components/cardConteinerPlus";
 import ArtisanConteiner from "../components/artisanConteiner";
 
-function Home () {
+function Auth () {
     return(
         <>
             <NavBar />
             <Hero />
-            <CardConteinerPlus />
-            <ArtisanConteiner />
+
         </>
     );
 }
+export default Auth;
