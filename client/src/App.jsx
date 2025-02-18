@@ -10,12 +10,16 @@ import {
 } from "@chakra-ui/react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+import NavBar from "./features/auth/components/navBar";
+import Hero from "./features/auth/components/hero";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <Box textAlign="center" py={10} bg="primary.50" height={"vh"}>
+    <Box textAlign="center" py="0">
+      <NavBar />
+      <Hero />
       <Flex justify="center" align="center" gap={4}>
         <Link href="https://vite.dev" target="_blank">
           <Box width="100px" height="100px" overflow="hidden">
@@ -42,6 +46,7 @@ function App() {
           </Box>
         </Link>
       </Flex>
+      
 
       <Heading as="h1" size="2xl" mt={6} mb={4}>
         Vite + React
@@ -51,14 +56,12 @@ function App() {
         p={6}
         borderRadius="lg"
         boxShadow="md"
-        bg="primary.600"
+        bg="gray.50"
         display="inline-block"
         mt={6}
       >
         <Button
-          _hover={{ bg: "secondary.700" }}
-          bg="secondary"
-          color="black"
+          colorScheme="teal"
           size="lg"
           onClick={() => setCount((count) => count + 1)}
         >
@@ -69,7 +72,7 @@ function App() {
         </Text>
       </Box>
 
-      <Text mt={8} color="gray.500">
+      <Text mt={8} color="gray.600">
         Click on the Vite and React logos to learn more
       </Text>
     </Box>
