@@ -9,7 +9,8 @@ function Auth () {
         <>
             <NavBar />
             <Hero />
-
+            <CardConteinerPlus />
+            <ArtisanConteiner />
         </>
     );
 }
