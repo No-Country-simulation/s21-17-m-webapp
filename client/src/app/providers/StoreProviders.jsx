@@ -1,9 +1,5 @@
 const StoreProviders = ({ children }) => {
-  return (
-    
-   {children}
-
-  );
+  return <>{children}</>;
 };
 
 export default StoreProviders;
