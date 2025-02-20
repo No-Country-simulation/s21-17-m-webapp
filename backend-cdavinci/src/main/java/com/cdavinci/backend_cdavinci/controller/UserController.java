@@ -25,7 +25,7 @@ public class UserController {
         response.sendRedirect("/swagger-ui/index.html");
     }
 
-    @GetMapping("/user")
+    @GetMapping("api/user")
     public @ResponseBody Iterable<User> sayHello() {
         return userService.getUser();
     }
