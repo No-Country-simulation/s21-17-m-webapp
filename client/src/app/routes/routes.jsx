@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, RouterProvider } from 'react-router-dom';
 import Auth from '../../features/auth/pages/home';
-import Cart from '../../features/cart/pages/Cart';
+import Cart from '../../features/cart/components/Cart';
 
 /* 
     Se debe importar cada pagina y agregarlo dentro de <routes>, 
