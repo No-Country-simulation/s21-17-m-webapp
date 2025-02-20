@@ -19,4 +19,10 @@ public class UserService {
     public  Iterable<User> getUser() {
         return  userRepository.findAll(); 
     }
+
+
+
+
+
+    
 }
