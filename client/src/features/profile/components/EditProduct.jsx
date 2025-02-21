@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, Input, Fieldset, Flex } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Button, Input, Fieldset } from "@chakra-ui/react";
 import {
   DialogRoot,
   DialogBackdrop,
@@ -19,37 +19,62 @@ import {
   NativeSelectField,
 } from "../../../shared/components/native-select";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
+import PropTypes from "prop-types";
 
-export const AddProduct = () => {
+export const EditProduct = ({ product }) => {
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const { addProduct } = useProfileProductsContext();
+
+  const { updateProduct } = useProfileProductsContext();
   const [imagePreview, setImagePreview] = useState(null);
+  const [localImage, setLocalImage] = useState(null);
+
+  useEffect(() => {
+    if (product) {
+      setValue("name", product.name);
+      setValue("description", product.description);
+      setValue("price", product.price);
+      setValue("stock", product.stock);
+      setValue("category", product.category);
+
+      if (product.image instanceof Blob) {
+        const file = new File([product.image], product.name + ".jpg", {
+          type: product.image.type,
+        });
+
+        const fileList = new DataTransfer();
+        fileList.items.add(file);
+
+        setValue("image", fileList.files);
+      }
+
+      setImagePreview(URL.createObjectURL(product.image));
+    }
+  }, [product, setValue]);
 
   const onSubmit = async (data) => {
-    if (data.image && data.image[0]) {
-      const file = data.image[0];
-      const imageBlob = new Blob([file], { type: file.type });
+    const imageToUpdate = localImage || (data.image && data.image[0]);
 
-      const productData = {
+    if (imageToUpdate) {
+      const imageBlob = new Blob([imageToUpdate], { type: imageToUpdate.type });
+
+      const updatedProductData = {
         ...data,
         image: imageBlob,
       };
 
-      addProduct(productData);
+      updateProduct({ ...updatedProductData, id: product.id });
     }
-
-    setImagePreview(null);
-    reset();
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setLocalImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -61,22 +86,15 @@ export const AddProduct = () => {
   return (
     <DialogRoot>
       <DialogTrigger asChild>
-        <Flex justify="center" align="center" py={6} mb={2} bg={"primary.50"}>
-          <Button
-            _hover={{ bg: "secondary.700" }}
-            bg={"secondary"}
-            color={"black"}
-            colorScheme="blue"
-          >
-            Agregar Producto
-          </Button>
-        </Flex>
+        <Button variant={"ghost"} color={"secondary"} size="sm">
+          Editar
+        </Button>
       </DialogTrigger>
       <DialogBackdrop />
       <DialogContent>
         <DialogCloseTrigger />
         <DialogHeader>
-          <DialogTitle>Agregar un Nuevo Producto</DialogTitle>
+          <DialogTitle>Editar Producto</DialogTitle>
         </DialogHeader>
         <DialogBody>
           <form id="product-form" onSubmit={handleSubmit(onSubmit)}>
@@ -162,7 +180,6 @@ export const AddProduct = () => {
                 <Input
                   type="file"
                   {...register("image", {
-                    required: "Selecciona una imagen",
                     validate: {
                       lessThan5MB: (files) =>
                         files[0]?.size < 5 * 1024 * 1024 ||
@@ -220,4 +237,8 @@ export const AddProduct = () => {
       </DialogContent>
     </DialogRoot>
   );
+};
+
+EditProduct.propTypes = {
+  product: PropTypes.object,
 };

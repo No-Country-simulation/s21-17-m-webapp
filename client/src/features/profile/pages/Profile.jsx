@@ -1,7 +1,7 @@
-import NavBar from "../../auth/components/navBar";
 import { AddProduct } from "../components/AddProduct";
 import { BannerProfile } from "../components/BannerProfile";
 import { CardList } from "../components/CardList";
+import { useProfileProductsContext } from "../store/ProfileProductsContext";
 
 export const Profile = () => {
   const user = {
@@ -9,38 +9,13 @@ export const Profile = () => {
     role: "cDavinci",
   };
 
-  const cards = [
-    {
-      title: "Title",
-      description:
-        "Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story. ",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      title: "Title",
-      description:
-        "Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story. ",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      title: "Title",
-      description:
-        "Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story. ",
-      image: "https://via.placeholder.com/150",
-    },
-    {
-      title: "Nombre artesanía",
-      description: "Descripción de la artesanía",
-      image: "https://via.placeholder.com/150",
-    },
-  ];
+  const { products } = useProfileProductsContext();
 
   return (
     <div>
-      <NavBar />
       <BannerProfile user={user} />
-      <CardList title="Manualidades publicadas" cards={cards} />
-      <AddProduct/>
+      <CardList title="Manualidades publicadas" cards={products} />
+      <AddProduct />
     </div>
   );
 };
