@@ -1,4 +1,4 @@
-import NavBar from "../../auth/components/navBar";
+import NavBar from "../../../shared/components/navBar";
 import { AddProduct } from "../components/AddProduct";
 import { BannerProfile } from "../components/BannerProfile";
 import { CardList } from "../components/CardList";

@@ -1,8 +1,7 @@
 import React from "react";
 import { Image, Button, Text, Card } from "@chakra-ui/react";
 
-function CardLittle({title, description, imageUrl, price }) {
-    
+function CardLittle({title, description, imageUrl, price, id }) {
     return(
         <Card.Root maxW="sm" overflow="hidden">
             <Image src={imageUrl} alt={title}/>
