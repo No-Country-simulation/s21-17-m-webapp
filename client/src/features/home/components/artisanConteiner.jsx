@@ -46,7 +46,7 @@ function ArtisanConteiner (){
           <Spinner size="lg" />
         </Box>
         ) : error ? (
-          <Text color="red.500" textAlign="center" mt="4">{error}</Text>
+          <Text color="secondary" textAlign="center" mt="4">{error}</Text>
         ) : (
     <CardArtisan
         name= {artisanData.name}

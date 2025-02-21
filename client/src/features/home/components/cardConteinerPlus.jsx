@@ -31,7 +31,7 @@ function CardConteinerPlus(){
       setLoading(false);
     } catch (error) {
       console.error("Error al cargar los datos:", error);
-      setError("Nos encontramos con problemas para encontrar los productos, por vavor vuelva mas tarde");
+      setError("Nos encontramos con problemas para encontrar los productos, por favor vuelva mas tarde");
       setLoading(false);
     }
   };
@@ -47,7 +47,7 @@ function CardConteinerPlus(){
       <Spinner size="lg" />
     </Box>
     ) : error ? (
-      <Text color="red.500" textAlign="center" mt="4">{error}</Text>
+      <Text color="secondary" textAlign="center" mt="4">{error}</Text>
     ) : (
       <CardLittle
         title={productData.title}

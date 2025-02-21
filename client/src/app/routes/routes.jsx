@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, RouterProvider } from 'react-router-dom';
-import Auth from '../../features/auth/pages/home';
+import Home from '../../features/home/pages/home';
 import Cart from '../../features/cart/pages/Cart';
 import { Profile } from '../../features/profile/pages/Profile';
 
@@ -12,7 +12,7 @@ const AppRoutes = () => {
   return (
 
       <Routes>
-        <Route path='/' element={<Auth />} />
+        <Route path='/' element={<Home />} />
         <Route path='/cart' element={<Cart />}/>
         <Route path='/profile' element={<Profile/>}/>
       </Routes>
