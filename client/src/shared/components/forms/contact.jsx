@@ -3,8 +3,8 @@ import { Box, Button, Text, Input, Textarea, Stack, Link, Field, CloseButton  } 
 
 function ContactForm({ onClose }) {
     const [formData, setFormData] = useState({
-        nombre: "",
-        apellido: "",
+        name: "",
+        lastName: "",
         email: "",
         mensaje: "",
     });
@@ -32,10 +32,10 @@ function ContactForm({ onClose }) {
                         <Field.Root>
                         <Field.Label>Nombre</Field.Label>  
                             <Input
-                                id="nombre"
-                                name="nombre"
+                                id="name"
+                                name="name"
                                 type="text"
-                                value={formData.nombre}
+                                value={formData.name}
                                 onChange={handleChange}
                                 required
                                 caretColor="secondary"
@@ -45,10 +45,10 @@ function ContactForm({ onClose }) {
                         <Field.Root>
                         <Field.Label >Apellido</Field.Label>  
                             <Input
-                                id="apellido"
-                                name="apellido"
+                                id="lastName"
+                                name="lastName"
                                 type="text"
-                                value={formData.apellido}
+                                value={formData.lastName}
                                 onChange={handleChange}
                                 required
                                 caretColor="secondary"

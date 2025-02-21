@@ -3,7 +3,7 @@ import { Box, Button, Text, Input, Stack, Link, Field, CloseButton  } from "@cha
 
 function LoginForm({ onClose }) {
     const [formData, setFormData] = useState({
-        contraseña: "",
+        password: "",
         email: "",
     });
 
@@ -44,9 +44,9 @@ function LoginForm({ onClose }) {
                         <Field.Label >Contraseña</Field.Label>  
                             <Input
                                 id="Contraseña"
-                                name="contraseña"
+                                name="password"
                                 type="password"
-                                value={formData.contraseña}
+                                value={formData.password}
                                 onChange={handleChange}
                                 required
                                 caretColor="secondary"
