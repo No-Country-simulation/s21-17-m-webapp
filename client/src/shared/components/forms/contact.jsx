@@ -9,10 +9,26 @@ function ContactForm({ onClose }) {
         mensaje: "",
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        //yavamos jajaj
+
+        try {
+            const response = await fetch("https://api", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al enviar el mensaje. Inténtalo nuevamente.");
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleChange = (e) => {
