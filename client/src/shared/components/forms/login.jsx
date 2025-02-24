@@ -82,8 +82,6 @@ function LoginForm({ onClose }) {
                         <Button type="submit"  bg="secondary">Ingresar</Button>
                     </Stack>
                 </form>
-
-                <Link href="#" mt={4} display="block" color="secondary">¿Olvidaste tu contraseña?</Link>
             </Box>
             <CloseButton margin="2rem" onClick={onClose}/> 
         </Box>
