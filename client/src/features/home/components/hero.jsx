@@ -17,11 +17,11 @@ function Hero(){
             justifyContent="center"
             gap="15"
         >
-            <Flex direction="column">
-                <Text fontSize="8xl" fontWeight="bolder" color="secondary" textShadow="3px 5px 5px rgba(0, 0, 0, 0.7)">
+            <Flex direction="column" alignItems="center">
+                <Text fontSize="8xl" fontWeight="bolder" color="secondary" textShadow="8px 10px 10px rgb(14, 3, 0)">
                     cDavinci
                 </Text>
-                <Text fontSize="4xl" fontWeight="bolder" color="secondary" textShadow="2px 4px 4px rgba(0, 0, 0, 0.7)">
+                <Text fontSize="5xl" fontWeight="bolder" color="secondary" textShadow="5px 8px 8px rgb(14, 3, 0)">
                     Artesanias del Artista a tus manos
                 </Text>
             </Flex>
