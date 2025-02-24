@@ -1,0 +1,17 @@
+
+[
+  {
+    "nombre": "Cerámica",
+    "subcategorias": [
+      { "nombre": "Cerámica utilitaria", "subcategorias": [] },
+      { "nombre": "Esculturas de cerámica", "subcategorias": [] }
+    ]
+  },
+  {
+    "nombre": "Textiles",
+    "subcategorias": [
+      { "nombre": "Tejidos a mano", "subcategorias": [] },
+      { "nombre": "Bordados", "subcategorias": [] }
+    ]
+  }
+]
