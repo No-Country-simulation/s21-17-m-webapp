@@ -59,13 +59,13 @@ export const AddProduct = () => {
   };
 
   return (
-    <DialogRoot>
+    <DialogRoot bg="neutral" color="primary">
       <DialogTrigger asChild>
         <Flex justify="center" align="center" py={6} mb={2} bg={"primary.50"}>
           <Button
             _hover={{ bg: "secondary.700" }}
             bg={"secondary"}
-            color={"black"}
+            color={"accent"}
             colorScheme="blue"
           >
             Agregar Producto
@@ -83,6 +83,8 @@ export const AddProduct = () => {
             <Fieldset.Root size="lg">
               <Field label="Nombre del Producto">
                 <Input
+                  borderColor="secondary"
+                  caretColor="secondary"
                   {...register("name", {
                     required: "El nombre del producto es obligatorio",
                   })}
@@ -94,6 +96,8 @@ export const AddProduct = () => {
 
               <Field label="Descripción del Producto">
                 <Input
+                  borderColor="secondary"
+                  caretColor="secondary"
                   {...register("description", {
                     required: "La descripción del producto es obligatorio",
                   })}
@@ -105,6 +109,8 @@ export const AddProduct = () => {
 
               <Field label="Precio Unitario">
                 <Input
+                  borderColor="secondary"
+                  caretColor="secondary"
                   type="number"
                   step="0.01"
                   {...register("price", {
@@ -122,6 +128,8 @@ export const AddProduct = () => {
 
               <Field label="Cantidad en Existencia">
                 <Input
+                  borderColor="secondary"
+                  caretColor="secondary"
                   type="number"
                   {...register("stock", {
                     required: "La cantidad es obligatoria",
@@ -137,8 +145,11 @@ export const AddProduct = () => {
               </Field>
 
               <Field label="Categoría">
-                <NativeSelectRoot>
+                <NativeSelectRoot >
                   <NativeSelectField
+                    bg="neutral"
+                    variant="subtle"
+                    borderColor="secondary"
                     {...register("category", {
                       required: "Selecciona una categoría",
                     })}
@@ -160,6 +171,9 @@ export const AddProduct = () => {
 
               <Field label="Imagen del Producto">
                 <Input
+                  bg="neutral"
+                  caretColor="secondary"
+                  borderColor="secondary"
                   type="file"
                   {...register("image", {
                     required: "Selecciona una imagen",
@@ -178,7 +192,7 @@ export const AddProduct = () => {
                   <p style={{ color: "red" }}>{errors.image.message}</p>
                 )}
                 {imagePreview && (
-                  <div style={{ marginTop: "10px" }}>
+                  <div style={{ marginTop: "10px"}}>
                     <img
                       src={imagePreview}
                       alt="Vista previa"
@@ -207,8 +221,8 @@ export const AddProduct = () => {
             </Button>
           </DialogActionTrigger>
           <Button
-            _hover={{ bg: "secondary.700" }}
-            bg={"secondary"}
+            _hover={{ bg: "primary.700" }}
+            bg={"primary"}
             colorPalette={"bg"}
             color={"black"}
             type="submit"
