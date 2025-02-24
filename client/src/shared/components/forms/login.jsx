@@ -30,7 +30,7 @@ function LoginForm({ onClose }) {
                 throw new Error(data.message || "Hubo un error, no se pudo iniciar sesion");
             }
             login(data);
-            window.location.href = data.user.type === "comon" ? "/profile" : "/";// igual que en registro falta agregar la ruta de perfiles de artesanos
+            window.location.href = data.user.type === "comon" ? "/" : "/profile";// igual que en registro falta agregar la ruta de perfiles de usuarios comunes
         } catch (error) {
             setError(error.message);
         } finally {

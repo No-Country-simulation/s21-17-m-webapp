@@ -27,7 +27,7 @@ function RegisterForm({ onClose }) {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        
+
         console.log(formData);
         
         try {
@@ -46,7 +46,7 @@ function RegisterForm({ onClose }) {
             }
             login(data); 
 
-            window.location.href = data.user.type === "comon" ? "/profile" : "/";//falta agregar la ruta de perfiles de artesanos
+            window.location.href = data.user.type === "comon" ? "/profile" : "/profile";//falta agregar la ruta de perfiles de usuarios comunes
         } catch (error) {
             setError(error.message);
         } finally {
