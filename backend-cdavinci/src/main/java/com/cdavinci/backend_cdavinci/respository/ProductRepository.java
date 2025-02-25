@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.cdavinci.backend_cdavinci.model.*;;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Long> {
-    List<Producto> findByCategoria(Categoria categoria);
-    List<Producto> findByVendedor(User vendedor);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByCategory(Category category);
+    List<Product> findByUser(User user);
 }

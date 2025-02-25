@@ -3,28 +3,27 @@ package com.cdavinci.backend_cdavinci.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.cdavinci.backend_cdavinci.model.Producto;
-import com.cdavinci.backend_cdavinci.model.Categoria;
-import com.cdavinci.backend_cdavinci.service.ProductoService;
-import com.cdavinci.backend_cdavinci.repository.CategoriaRepository;
+import com.cdavinci.backend_cdavinci.model.Product;
+import com.cdavinci.backend_cdavinci.service.ProductService;
+import com.cdavinci.backend_cdavinci.respository.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/productos")
+@RequestMapping("/products")
 public class ProductoController {
 
-    private final ProductoService productoService;
-    public ProductoController(ProductoService productoService, 
-    CategoriaRepository categoriaRepository) {
-        this.productoService = productoService;
-        this.categoriaRepository = categoriaRepository;
+    private final ProductService productService;
+
+    public ProductoController(ProductService productService, 
+    CategoryRepository categoryRepository) {
+        this.productService = productService;
     }
 
-    @GetMapping("/lista")
-    public ResponseEntity<List<Producto>> obtenerTodosLosProductos() {
-        return ResponseEntity.ok(productoService.obtenerTodosLosProductos());
+    @GetMapping("/getList")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
     /*@GetMapping("/lista/{idUsuario}")
@@ -33,29 +32,33 @@ public class ProductoController {
         productoService.obteneProductosDeVendedor(usuarioVendedor);
     }*/
 
-    @GetMapping("obtener/{idProducto}")
-    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable Long idProducto) {
-        Optional<Producto> producto = productoService.obtenerProductoPorId(idProducto);
-        return producto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("getItem/{idProduct}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long idProduct) {
+    
+    Optional<Product> productOptional = productService.getProductById(idProduct);
+    if (productOptional.isPresent()) {
+        return ResponseEntity.ok(productOptional.get());
+    } else {
+        return ResponseEntity.notFound().build();
+    }
     }
 
-    @GetMapping("obtener/{idCategoria}")
-    public ResponseEntity<Producto> obtenerProductoPorIdCategoria(@PathVariable Long idCategoria) {
-        Categoria categoria = categoriaRepository.findById(idCategoria);
-        Optional<Producto> producto = productoService.obteneProductosDeCategoria(categoria);
-        return producto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("getList/{idCategory}")
+    public ResponseEntity<List<Product>> getProductsByIdCategory(@PathVariable Long idCategory) {
+        List<Product> products = productService.getProductsByIdCategory(idCategory);
+        return ResponseEntity.ok(products);
     }
 
-    @PostMapping("/guardar")
-    public ResponseEntity<Producto> guardarProducto(@RequestBody Producto producto) {
+    @PostMapping("/save")
+    public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).
-        body(productoService.guardarProducto(producto));
+        body(productService.saveProduct(product));
     }
 
 
-    @DeleteMapping("/eliminar/{idProducto}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable Long idProducto) {
-        productoService.eliminarProducto(idProducto);
+    @DeleteMapping("/delete/{idProducto}")
+    public ResponseEntity<Void> deleteProducto(@PathVariable Long idProduct) {
+        productService.deleteProduct(idProduct);
         return ResponseEntity.noContent().build();
     }
 
