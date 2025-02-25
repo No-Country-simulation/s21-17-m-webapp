@@ -1,7 +1,7 @@
 import { React, useState } from "react";
-import { Box, IconButton, Flex, Button, Link, Icon, Group } from "@chakra-ui/react";
+import { Box, IconButton, Flex, Button, Link, Image } from "@chakra-ui/react";
 import { IoMenu } from "react-icons/io5";
-import { FaHandHoldingHand } from "react-icons/fa6";
+import logo from "../../../assets/cdavinci.jpg"
 import ContactForm from "../../../shared/components/forms/contact";
 import LoginForm from "../../../shared/components/forms/login";
 import RegisterForm from "../../../shared/components/forms/register";
@@ -46,9 +46,7 @@ return (
         {/* Tamaño PC */}
         <Flex direction="row" display={{ base: "none", md: "flex" }} justify="space-between">
             <Flex gap="4" justify="flex-start">
-            <Icon fontSize="4xl">
-                <FaHandHoldingHand />
-            </Icon>
+            <Image src={logo} alt="logo cDavinci" maxHeight={"40px"} marginInline={"30px"}/>
             </Flex>
             <Flex direction="row" gap="6" justify="flex-end">
                 <Link href="">Artesanos</Link>
