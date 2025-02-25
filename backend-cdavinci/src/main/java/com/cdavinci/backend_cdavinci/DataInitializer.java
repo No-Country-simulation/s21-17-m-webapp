@@ -14,10 +14,10 @@ import java.util.List;
 @Component
 public class DataInitializer {
 
-    private final CategoryRepository categoriaRepository;
+    private final CategoryRepository categoryRepository;
 
-    public DataInitializer(CategoryRepository categoriaRepository) {
-        this.categoriaRepository = categoriaRepository;
+    public DataInitializer(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     @PostConstruct // Se ejecuta al inicio de la aplicación
@@ -25,10 +25,10 @@ public class DataInitializer {
         ObjectMapper objectMapper = new ObjectMapper(); // Para JSON
         // CSVParser parser = new CSVParser(...); // Para CSV
 
-        InputStream inputStream = getClass().getResourceAsStream("/data/categorias.json"); // Ruta al archivo
+        InputStream inputStream = getClass().getResourceAsStream("/data/categories.json"); // Ruta al archivo
         List<Category> categories = objectMapper.readValue(inputStream, new TypeReference<List<Category>>() {});
-
+System.out.println(categories);
         // Guarda la categoría y sus subcategorías (cascadeType)
-        categoriaRepository.saveAll(categories);
+        categoryRepository.saveAll(categories);
     }
 }
