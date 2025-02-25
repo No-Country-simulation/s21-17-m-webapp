@@ -51,8 +51,8 @@ return (
             </Icon>
             </Flex>
             <Flex direction="row" gap="6" justify="flex-end">
-                <Link to="">Artesanos</Link>
-                <Link to="">Sobre Nosotros</Link>
+                <Link href="">Artesanos</Link>
+                <Link href="/aboutUs">Sobre Nosotros</Link>
                 <Link to="" onClick={handleShowContactForm}>Contáctanos</Link>
                 {userType === "comon" &&(
                     <>
@@ -90,7 +90,7 @@ return (
         {isOpen && (
             <Flex direction="column" gap="2" align="center" >
                 <Link p="2" href="#">Artesanos</Link>
-                <Link p="2" href="#">Sobre Nosotros</Link>
+                <Link p="2" href="/aboutUs">Sobre Nosotros</Link>
                 <Link p="2" href="#" onClick={handleShowContactForm}>Contáctanos</Link>
                 {userType === "comon" &&(
                     <>
