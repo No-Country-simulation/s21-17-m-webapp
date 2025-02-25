@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input, Fieldset, Flex } from "@chakra-ui/react";
+import { Button, Input, Fieldset, Flex, Spinner } from "@chakra-ui/react";
 import {
   DialogRoot,
   DialogBackdrop,
@@ -19,6 +19,7 @@ import {
   NativeSelectField,
 } from "../../../shared/components/native-select";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
+import { useCategoryContext } from "../../products/store/CategoryContext";
 
 export const AddProduct = () => {
   const {
@@ -28,6 +29,8 @@ export const AddProduct = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const { addProduct } = useProfileProductsContext();
+  const { categories, loading, error } = useCategoryContext();
+
   const [imagePreview, setImagePreview] = useState(null);
 
   const onSubmit = async (data) => {
@@ -145,25 +148,32 @@ export const AddProduct = () => {
               </Field>
 
               <Field label="Categoría">
-                <NativeSelectRoot >
-                  <NativeSelectField
-                    bg="neutral"
-                    variant="subtle"
-                    borderColor="secondary"
-                    {...register("category", {
-                      required: "Selecciona una categoría",
-                    })}
-                  >
-                    <option value="cerámica">Cerámica</option>
-                    <option value="madera">Madera</option>
-                    <option value="textiles">Textiles</option>
-                    <option value="joyería">Joyería</option>
-                    <option value="cestería">Cestería</option>
-                    <option value="cuero">Cuero</option>
-                    <option value="metal">Metal</option>
-                    <option value="piedra">Piedra</option>
-                  </NativeSelectField>
-                </NativeSelectRoot>
+                {loading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  error && (
+                    <p style={{ color: "red" }}>
+                      Problemas cargando las categorías
+                    </p>
+                  )
+                )}
+
+                {!loading && (
+                  <NativeSelectRoot>
+                    <NativeSelectField
+                      placeholder="Selecciona una categoría"
+                      {...register("category", {
+                        required: "Selecciona una categoría",
+                      })}
+                    >
+                      {categories.map((category) => (
+                        <option key={category.idCategory} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </NativeSelectField>
+                  </NativeSelectRoot>
+                )}
                 {errors.category && (
                   <p style={{ color: "red" }}>{errors.category.message}</p>
                 )}
@@ -192,7 +202,7 @@ export const AddProduct = () => {
                   <p style={{ color: "red" }}>{errors.image.message}</p>
                 )}
                 {imagePreview && (
-                  <div style={{ marginTop: "10px"}}>
+                  <div style={{ marginTop: "10px" }}>
                     <img
                       src={imagePreview}
                       alt="Vista previa"
@@ -209,13 +219,23 @@ export const AddProduct = () => {
           </form>
         </DialogBody>
         <DialogFooter display="flex" justifyContent="flex-end">
-          <DialogCloseTrigger asChild></DialogCloseTrigger>
+          <DialogCloseTrigger
+            asChild
+            onClick={() => {
+              setImagePreview(null);
+              reset();
+            }}
+          ></DialogCloseTrigger>
           <DialogActionTrigger asChild>
             <Button
               _hover={{ bg: "secondary.700" }}
               bg={"secondary"}
               colorPalette={"bg"}
               color={"black"}
+              onClick={() => {
+                setImagePreview(null);
+                reset();
+              }}
             >
               Cancelar
             </Button>

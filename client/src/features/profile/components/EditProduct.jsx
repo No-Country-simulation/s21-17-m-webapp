@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Fieldset } from "@chakra-ui/react";
+import { Button, Input, Fieldset, Spinner } from "@chakra-ui/react";
 import {
   DialogRoot,
   DialogBackdrop,
@@ -20,6 +20,7 @@ import {
 } from "../../../shared/components/native-select";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
 import PropTypes from "prop-types";
+import { useCategoryContext } from "../../products/store/CategoryContext";
 
 export const EditProduct = ({ product }) => {
   const {
@@ -32,6 +33,7 @@ export const EditProduct = ({ product }) => {
   const { updateProduct } = useProfileProductsContext();
   const [imagePreview, setImagePreview] = useState(null);
   const [localImage, setLocalImage] = useState(null);
+  const { categories, loading, error } = useCategoryContext();
 
   useEffect(() => {
     if (product) {
@@ -155,22 +157,32 @@ export const EditProduct = ({ product }) => {
               </Field>
 
               <Field label="Categoría">
-                <NativeSelectRoot>
-                  <NativeSelectField
-                    {...register("category", {
-                      required: "Selecciona una categoría",
-                    })}
-                  >
-                    <option value="cerámica">Cerámica</option>
-                    <option value="madera">Madera</option>
-                    <option value="textiles">Textiles</option>
-                    <option value="joyería">Joyería</option>
-                    <option value="cestería">Cestería</option>
-                    <option value="cuero">Cuero</option>
-                    <option value="metal">Metal</option>
-                    <option value="piedra">Piedra</option>
-                  </NativeSelectField>
-                </NativeSelectRoot>
+                {loading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  error && (
+                    <p style={{ color: "red" }}>
+                      Problemas cargando las categorías
+                    </p>
+                  )
+                )}
+
+                {!loading && (
+                  <NativeSelectRoot>
+                    <NativeSelectField
+                      placeholder="Selecciona una categoría"
+                      {...register("category", {
+                        required: "Selecciona una categoría",
+                      })}
+                    >
+                      {categories.map((category) => (
+                        <option key={category.idCategory} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </NativeSelectField>
+                  </NativeSelectRoot>
+                )}
                 {errors.category && (
                   <p style={{ color: "red" }}>{errors.category.message}</p>
                 )}
