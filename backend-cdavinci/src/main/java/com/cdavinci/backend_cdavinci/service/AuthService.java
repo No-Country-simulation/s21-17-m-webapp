@@ -49,12 +49,12 @@ public class AuthService {
 
         try {
             Role roleUser = new Role();
-            Boolean role = newUserDto.getIscraftman();
+            Boolean role = newUserDto.getArtisan();
     
             if (!role) {
                 roleUser.setRoleName(RoleList.ROLE_USER);
             } else {
-                roleUser.setRoleName(RoleList.ROLE_CRAFTMAN);
+                roleUser.setRoleName(RoleList.ROLE_ARTISAN);
             }
             
             roleUser = roleRepository.save(roleUser);

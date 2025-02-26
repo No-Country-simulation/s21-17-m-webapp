@@ -15,7 +15,7 @@ public class NewUserDTO{
     private String name;
     private String lastname;
     private String fonenumber;
-    private Boolean iscraftman;
+    private Boolean artisan;
     private String gmail; 
     private String password;
 
