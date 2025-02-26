@@ -23,10 +23,12 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final AuthService authService;
+    private final UserService userService;
 
     public UserController(UserService userService, AuthService authService) {
 
         this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -54,5 +56,11 @@ public class UserController {
     @GetMapping("/check-auth")
     public ResponseEntity<String> checkAuth() {
         return ResponseEntity.ok().body("Autenticado");
+    }
+
+    @GetMapping("api/user")
+    public @ResponseBody Iterable<User> sayHello() {
+      
+        return userService.getUser();
     }
 }
