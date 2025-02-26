@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import com.cdavinci.backend_cdavinci.dto.user.NewUserDTO;
 import com.cdavinci.backend_cdavinci.dto.user.UserLoginDTO;
@@ -20,6 +22,7 @@ import com.cdavinci.backend_cdavinci.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private final AuthService authService;
@@ -58,7 +61,7 @@ public class UserController {
         return ResponseEntity.ok().body("Autenticado");
     }
 
-    @GetMapping("api/user")
+    @GetMapping("/user")
     public @ResponseBody Iterable<User> sayHello() {
       
         return userService.getUser();

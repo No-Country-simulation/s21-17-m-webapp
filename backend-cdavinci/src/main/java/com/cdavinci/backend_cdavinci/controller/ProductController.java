@@ -5,19 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.cdavinci.backend_cdavinci.model.Product;
 import com.cdavinci.backend_cdavinci.service.ProductService;
-import com.cdavinci.backend_cdavinci.respository.CategoryRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
-public class ProductoController {
-
+@RequestMapping("/api/products")
+public class ProductController {
+    
     private final ProductService productService;
 
-    public ProductoController(ProductService productService, 
-    CategoryRepository categoryRepository) {
+    public ProductController(ProductService    productService) {
         this.productService = productService;
     }
 
@@ -26,21 +23,14 @@ public class ProductoController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    /*@GetMapping("/lista/{idUsuario}")
-    public ResponseEntity<List<Producto>> obtenerProductosDeVendedor(@PathVariable Long idUsuario){
-        User usuarioVendedor = userRepository.findById(idUsuario);
-        productoService.obteneProductosDeVendedor(usuarioVendedor);
-    }*/
+    @GetMapping("/list/{idArtisan}")
+    public ResponseEntity<List<Product>> getProductsByArtisan(@PathVariable Long idArtisan){
+        return ResponseEntity.ok(productService.getProductsByIdArtisan(idArtisan));
+    }
 
     @GetMapping("getItem/{idProduct}")
     public ResponseEntity<Product> getProductById(@PathVariable Long idProduct) {
-    
-    Optional<Product> productOptional = productService.getProductById(idProduct);
-    if (productOptional.isPresent()) {
-        return ResponseEntity.ok(productOptional.get());
-    } else {
-        return ResponseEntity.notFound().build();
-    }
+        return ResponseEntity.ok(productService.getProductById(idProduct));
     }
 
     @GetMapping("getList/{idCategory}")
