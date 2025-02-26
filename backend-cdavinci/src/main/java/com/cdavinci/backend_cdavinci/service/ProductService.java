@@ -2,8 +2,9 @@ package com.cdavinci.backend_cdavinci.service;
 
 import org.springframework.stereotype.Service;
 import com.cdavinci.backend_cdavinci.model.Product;
-import com.cdavinci.backend_cdavinci.model.User;
+import com.cdavinci.backend_cdavinci.model.Artisan;
 import com.cdavinci.backend_cdavinci.model.Category;
+import com.cdavinci.backend_cdavinci.respository.ArtisanRepository;
 import com.cdavinci.backend_cdavinci.respository.ProductRepository;
 
 import java.time.LocalDateTime;
@@ -16,19 +17,28 @@ public class ProductService {
     
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final ArtisanRepository artisanRepository;
     
     public ProductService(ProductRepository productRepository,
-                          CategoryService categoryService) {
+                          CategoryService   categoryService,
+                          ArtisanRepository artisanRepository) {
                             this.productRepository = productRepository;
                             this.categoryService = categoryService;
+                            this.artisanRepository = artisanRepository;
     }
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
     
-    public List<Product> getProductsByArtisan(User user){
-        return productRepository.findByUser(user);
+    public List<Product> getProductsByIdArtisan(Long idArtisan){
+        Optional<Artisan> optionalArtisan = artisanRepository.findById(idArtisan);
+        if(optionalArtisan.isPresent()) {
+            Artisan artisan = optionalArtisan.get();
+            return productRepository.findByArtisan(artisan);
+        } else {
+            return java.util.Collections.emptyList();
+        }
     }
 
     public List<Product> getProductsByIdCategory(Long idCategory){
@@ -41,8 +51,13 @@ public class ProductService {
         }
     }
 
-    public Optional<Product> getProductById(Long idProduct) {
-        return productRepository.findById(idProduct);
+    public Product getProductById(Long idProduct) {
+        Optional<Product> optionalProduct = productRepository.findById(idProduct);
+        if(optionalProduct.isPresent()){
+            return optionalProduct.get();
+        } else {
+            return null;
+        }
     }
 
     public Product saveProduct(Product product) {
