@@ -9,7 +9,7 @@ function InfoPolicy () {
             <Image src={cdavinci} alt="logo cDavinci" maxWidth={"400px"}/>
             <Box maxWidth="800px">
                 <Text color="secondary" fontSize="3xl" margin={"30px"}>Política de Devoluciones:</Text>
-                <Text fontSize="xl">
+                <Text fontSize="l">
                     <ul>
                         <li>
                             <Text color="secondary">Plazo para devoluciones: </Text>
@@ -33,7 +33,7 @@ function InfoPolicy () {
             </Box>
             <Box maxWidth="800px">
                 <Text color="secondary" fontSize="3xl" margin={"30px"}>Política de Permanencia en la Comunidad:</Text>
-                <Text fontSize="xl">
+                <Text fontSize="l">
                     <ul>
                         <li>
                             <Text color="secondary">Respeto y comportamiento:</Text>
@@ -52,7 +52,7 @@ function InfoPolicy () {
             </Box>
             <Box maxWidth="800px">
                 <Text color="secondary" fontSize="3xl" margin={"30px"}>Política de Privacidad: </Text>
-                <Text fontSize="xl">
+                <Text fontSize="l">
                     <ul>
                         <li>
                             <Text color="secondary">Recopilación de datos:</Text>
@@ -71,7 +71,7 @@ function InfoPolicy () {
             </Box>
             <Box maxWidth="800px">
                 <Text color="secondary" fontSize="3xl" margin={"30px"}>Términos y Condiciones de Uso:</Text>
-                <Text fontSize="xl">
+                <Text fontSize="l">
                     <ul>
                         <li>
                             <Text color="secondary">Acceso al sitio web:</Text>
