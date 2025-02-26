@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, Text, Input, Textarea, Stack, Link, Field, CloseButton  } from "@chakra-ui/react";
+import api from "../../../app/config/api"
 
 function ContactForm({ onClose }) {
     const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ function ContactForm({ onClose }) {
         e.preventDefault();
 
         try {
-            const response = await fetch("https://api", {
+            const response = await api.post("/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

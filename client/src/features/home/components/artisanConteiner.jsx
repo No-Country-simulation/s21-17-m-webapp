@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Box, Text, Spinner } from "@chakra-ui/react";
 import CardArtisan from "../../../shared/components/cardArtisan";
-import axios from 'axios';
+import api from "../../../app/config/api";
 
 
 function ArtisanConteiner (){
@@ -20,7 +20,7 @@ function ArtisanConteiner (){
   useEffect(() => {
   const fetchData = async () => {
   try {
-    const response = await axios.get("https://"); // URL del backend
+    const response = await api.get("/landing/artisans");
     const data = response.data;
     setArtisanData({
         name: data.name,

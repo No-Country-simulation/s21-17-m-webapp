@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Text, Input, Stack, Link, Field, CloseButton } from "@chakra-ui/react";
 import { useAuth } from "../../../app/providers/AuthProvider";
+import api from "../../../app/config/api";
 
 function RegisterForm({ onClose }) {
     const {login} = useAuth();
@@ -31,7 +32,7 @@ function RegisterForm({ onClose }) {
         console.log(formData);
         
         try {
-            const response = await fetch("https://api", {
+            const response = await api.post("/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,7 +40,7 @@ function RegisterForm({ onClose }) {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            const data = await response.data;
 
             if (!response.ok) {
                 throw new Error(data.message || "Hubo un errr, no se pudo realizar el registro");

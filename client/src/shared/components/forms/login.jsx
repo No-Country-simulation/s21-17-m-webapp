@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Text, Input, Stack, Link, Field, CloseButton  } from "@chakra-ui/react";
 import { useAuth } from "../../../app/providers/AuthProvider";
+import api from "../../../app/config/api";
 function LoginForm({ onClose }) {
     const { login } = useAuth();
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ function LoginForm({ onClose }) {
         setError(null);
         console.log(formData);
          try {
-            const response = await fetch("https://api", {
+            const response = await api.post("/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -24,7 +25,7 @@ function LoginForm({ onClose }) {
                 body: JSON.stringify(formData),
             });
             
-            const data = await response.json();
+            const data = await response.data;
 
             if (!response.ok) {
                 throw new Error(data.message || "Hubo un error, no se pudo iniciar sesion");

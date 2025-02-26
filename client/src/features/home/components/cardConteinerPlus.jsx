@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../../app/config/api";
 import { Box, Text, Spinner } from "@chakra-ui/react";
 import CardLittle from "../../../shared/components/cardLittle";
 
@@ -20,7 +20,7 @@ function CardConteinerPlus(){
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://"); // URL del backend
+      const response = await api.get("/products/getList"); 
       const data = response.data;
       setProductData({
         title: data.title,
