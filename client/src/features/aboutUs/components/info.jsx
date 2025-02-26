@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, Image } from "@chakra-ui/react";
 import cdavinci from "../../../assets/cdavinci.jpg";
 
-const Info = () => {
+function Info() {
     return (
         <Box color="accent"  textAlign="center" display="flex" flexDir={"column"} justifyContent={"center"} alignItems={"center"} marginInline={"100px"} >
             <Box maxWidth="800px">

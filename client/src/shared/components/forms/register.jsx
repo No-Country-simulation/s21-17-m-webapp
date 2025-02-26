@@ -156,7 +156,7 @@ function RegisterForm({ onClose }) {
                     </Stack>
                 </form>
 
-                <Link href="#" mt={4} display="block" color="secondary">Políticas de la empresa</Link>
+                <Link href="/policy" mt={4} display="block" color="secondary">Políticas de la empresa</Link>
             </Box>
             <CloseButton margin="2rem" onClick={onClose}/> 
         </Box>
