@@ -9,5 +9,5 @@ import com.cdavinci.backend_cdavinci.model.*;;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory(Category category);
-    List<Product> findByUser(User user);
+    List<Product> findByArtisan(Artisan artisan);
 }
