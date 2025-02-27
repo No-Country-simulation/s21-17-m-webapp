@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cdavinci.backend_cdavinci.dto.user.NewUserDTO;
 import com.cdavinci.backend_cdavinci.dto.user.UserLoginDTO;
+import com.cdavinci.backend_cdavinci.dto.user.UserResponseDTO;
 import com.cdavinci.backend_cdavinci.model.User;
 import com.cdavinci.backend_cdavinci.service.AuthService;
 import com.cdavinci.backend_cdavinci.service.UserService;
@@ -33,22 +34,23 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO loginUserDto, BindingResult bindingResult) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO loginUserDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Revise sus credenciales");
         }
         try {
-            String jwt = authService.authenticate(loginUserDto.getEmail(), loginUserDto.getPassword());
-            return ResponseEntity.ok(jwt);
+           
+            UserResponseDTO response =  authService.autenticateUser(loginUserDto);
+
+            return ResponseEntity.ok(response);
+       
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<NewUserDTO> register(@RequestBody NewUserDTO newUserDto) {
-
-        System.out.println(newUserDto.getName());
+    public ResponseEntity<UserResponseDTO> register(@RequestBody NewUserDTO newUserDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(newUserDto));
 
@@ -59,8 +61,8 @@ public class UserController {
         return ResponseEntity.ok().body("Autenticado");
     }
 
-    @GetMapping("/user")
-    public @ResponseBody Iterable<User> sayHello() {
+    @GetMapping("/users")
+    public @ResponseBody Iterable<User> users() {
       
         return userService.getUser();
     }
