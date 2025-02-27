@@ -1,7 +1,5 @@
 package com.cdavinci.backend_cdavinci.controller;
 
-import java.io.IOException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

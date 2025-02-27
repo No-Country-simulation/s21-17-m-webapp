@@ -18,12 +18,12 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/getList")
+    @GetMapping("/getAll")
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/list/{idArtisan}")
+    @GetMapping("/artisanlist/{idArtisan}")
     public ResponseEntity<List<Product>> getProductsByArtisan(@PathVariable Long idArtisan){
         return ResponseEntity.ok(productService.getProductsByIdArtisan(idArtisan));
     }
