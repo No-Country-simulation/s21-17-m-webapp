@@ -31,7 +31,7 @@ public class CustomerController {
 
     @GetMapping("getOne/{idCustomer}")
     public ResponseEntity<Customer> getCustomById(@PathVariable Long idCustomer) {
-        return ResponseEntity.ok(customerService.getCustomById(idCustomer));
+        return ResponseEntity.ok(customerService.getCustomerById(idCustomer));
     }
 
     @PostMapping("/save")
