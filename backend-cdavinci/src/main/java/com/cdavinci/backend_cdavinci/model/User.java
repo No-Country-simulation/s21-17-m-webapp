@@ -35,6 +35,7 @@ public class User {
     private String last_name;
     private String gmail;
     private String password;
+    private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
