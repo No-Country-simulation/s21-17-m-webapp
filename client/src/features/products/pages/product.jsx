@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Image, Text, Button } from "@chakra-ui/react";
-import { useProduct } from "../../../app/providers/ProductProvider"; 
+import { useProduct } from "../store/ProductContext";
 import { useNavigate } from "react-router-dom";
 
 function Product() {

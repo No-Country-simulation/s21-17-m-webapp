@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Button, Text, Card } from "@chakra-ui/react";
-import { useProduct } from "../../app/providers/ProductProvider";
+import { useProduct } from "../../features/products/store/ProductContext";
 import { useNavigate } from "react-router-dom";
 
 function CardLittle({title, description, imageUrl, price, id }) {
