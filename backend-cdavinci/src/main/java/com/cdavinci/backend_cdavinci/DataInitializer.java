@@ -22,13 +22,17 @@ public class DataInitializer {
 
     @PostConstruct // Se ejecuta al inicio de la aplicación
     public void cargarCategorias() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper(); // Para JSON
-        // CSVParser parser = new CSVParser(...); // Para CSV
 
-        InputStream inputStream = getClass().getResourceAsStream("/data/categories.json"); // Ruta al archivo
-        List<Category> categories = objectMapper.readValue(inputStream, new TypeReference<List<Category>>() {});
-System.out.println(categories);
-        // Guarda la categoría y sus subcategorías (cascadeType)
-        categoryRepository.saveAll(categories);
+        if (categoryRepository.count() == 0) {
+            ObjectMapper objectMapper = new ObjectMapper(); // Para JSON
+            // CSVParser parser = new CSVParser(...); // Para CSV
+
+            InputStream inputStream = getClass().getResourceAsStream("/data/categories.json"); // Ruta al archivo
+            List<Category> categories = objectMapper.readValue(inputStream, new TypeReference<List<Category>>() {
+            });
+            System.out.println(categories);
+            // Guarda la categoría y sus subcategorías (cascadeType)
+            categoryRepository.saveAll(categories);
+        }
     }
 }
