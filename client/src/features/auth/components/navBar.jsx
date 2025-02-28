@@ -66,7 +66,7 @@ function NavBar() {
           />
         </Flex>
         <Flex direction="row" gap="6" justify="flex-end">
-          <Link href="">Artesanos</Link>
+          <Link href="/artisans">Artesanos</Link>
           <Link href="/aboutUs">Sobre Nosotros</Link>
           <Link to="" onClick={handleShowContactForm}>
             Contáctanos
@@ -112,7 +112,7 @@ function NavBar() {
       {/* Menu desplegable para pantallas pequeñas */}
       {isOpen && (
         <Flex direction="column" gap="2" align="center">
-          <Link p="2" href="#">
+          <Link p="2" href="/artisans">
             Artesanos
           </Link>
           <Link p="2" href="/aboutUs">
