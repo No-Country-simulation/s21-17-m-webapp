@@ -1,11 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, RouterProvider } from 'react-router-dom';
-import Home from '../../features/home/pages/home';
-import Cart from '../../features/cart/pages/Cart';
+import React from "react";
+import {
+  Route,
+  Routes,
+} from "react-router-dom";
+import Home from "../../features/home/pages/home";
+import Cart from "../../features/cart/pages/Cart";
 import AboutUs from "../../features/aboutUs/pages/abutUs";
-import Policy from '../../features/polyci/pages/policy';
-import { Artisans } from '../../features/artisans/pages/Artisans';
-import Product from '../../features/products/pages/product';
+import Policy from "../../features/polyci/pages/policy";
+import { Artisans } from "../../features/artisans/pages/Artisans";
+import Product from "../../features/products/pages/product";
+import { Artisan } from "../../features/artisans/pages/Artisan";
+import { Profile } from "../../features/profile/pages/Profile";
 
 /* 
     Se debe importar cada pagina y agregarlo dentro de <routes>, 
@@ -13,16 +18,16 @@ import Product from '../../features/products/pages/product';
 
 const AppRoutes = () => {
   return (
-    <ProductProvider>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/cart' element={<Cart />}/>
-        <Route path='/aboutUs' element={<AboutUs />}/>
-        <Route path='/policy' element={<Policy />}/>
-        <Route path='/artisans' element={<Artisans />} />
-        <Route path='/product/:id' element={<Product />}/>
-      </Routes>
-    </ProductProvider>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/aboutUs" element={<AboutUs />} />
+      <Route path="/policy" element={<Policy />} />
+      <Route path="/artisans" element={<Artisans />} />
+      <Route path="/artisan/:id" element={<Artisan />} />
+      <Route path="/product/:id" element={<Product />} />
+    </Routes>
   );
 };
 
