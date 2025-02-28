@@ -52,7 +52,7 @@ function RegisterForm({ onClose }) {
       const { tokend, ...user } = data;
       login({ user, token: tokend });
 
-      window.location.href = data.user.type === "comon" ? "/" : "/profile";
+      window.location.href = data.user.type === "comon" ? "/" : "/artisans";
     } catch (error) {
       const errorMessage =
         (typeof error?.response?.data === "string" && error.response.data) ||
