@@ -61,7 +61,7 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
-        product.setStockUpdate(LocalDateTime.now());
+        product.setStockUpdated(LocalDateTime.now());
         return productRepository.save(product);
     }
 

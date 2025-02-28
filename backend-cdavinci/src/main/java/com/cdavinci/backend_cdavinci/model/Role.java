@@ -1,6 +1,5 @@
 package com.cdavinci.backend_cdavinci.model;
 
-import com.cdavinci.backend_cdavinci.model.enums.RoleList;
 
 import jakarta.persistence.*;
 import lombok.Getter;

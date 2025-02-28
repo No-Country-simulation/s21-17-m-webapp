@@ -30,7 +30,7 @@ public class Product {
     private int stock;
 
     @Column(name = "url_image")
-    private String urlImagen;
+    private String urlImage;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -40,8 +40,8 @@ public class Product {
     @JoinColumn(name = "artisan_id", nullable = false)
     private Artisan artisan;
 
-    @Column(name = "stock_Update")
-    private LocalDateTime stockUpdate;
+    @Column(name = "stock_updated")
+    private LocalDateTime stockUpdated;
 
     @Column(name = "active")
     private boolean active;
