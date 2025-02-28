@@ -40,7 +40,7 @@ public class CustomerController {
         body(customerService.saveCustomer(customer));
     }
 
-    @DeleteMapping("/delete/{idCustomer}")
+    @DeleteMapping("/delete/{idBuy}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long idCustomer) {
         customerService.deleteCustomer(idCustomer);
         return ResponseEntity.noContent().build();

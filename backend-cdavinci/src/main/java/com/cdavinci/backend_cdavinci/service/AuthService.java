@@ -16,7 +16,6 @@ import com.cdavinci.backend_cdavinci.dto.user.UserResponseDTO;
 import com.cdavinci.backend_cdavinci.jwt.JwtUtil;
 import com.cdavinci.backend_cdavinci.model.Role;
 import com.cdavinci.backend_cdavinci.model.User;
-import com.cdavinci.backend_cdavinci.model.enums.RoleList;
 import com.cdavinci.backend_cdavinci.respository.RoleRepository;
 import com.cdavinci.backend_cdavinci.respository.UserRepository;
 
