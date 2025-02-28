@@ -9,12 +9,6 @@ export const AuthProvider = ({ children }) => {
   );
   const [token, setToken] = useState(sessionStorage.getItem("token") || null);
 
-  useEffect(() => {
-    if (!user || !userType || !token) {
-      logout();
-    }
-  }, [token, user, userType]);
-
   const login = (userData) => {
     setToken(userData.token);
     setUser(userData.user);
