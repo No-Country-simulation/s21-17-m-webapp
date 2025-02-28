@@ -4,59 +4,61 @@ import api from "../../../app/config/api";
 import { Box, Text, Spinner } from "@chakra-ui/react";
 import CardLittle from "../../../shared/components/cardLittle";
 
-
-function CardConteinerPlus(){
-
+function CardConteinerPlus() {
   const [productData, setProductData] = useState({
-  title: "",
-  description: "",
-  imageUrl: "",
-  price: "",
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await api.get("/products/getList"); 
-      const data = response.data;
-      setProductData({
-        title: data.title,
-        description: data.description,
-        imageUrl: data.imageUrl,
-        price: data.price,
-      });
-      setLoading(false);
-    } catch (error) {
-      console.error("Error al cargar los datos:", error);
-      setError("Nos encontramos con problemas para encontrar los productos, por favor vuelva mas tarde");
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/products/getList/1");
+        const data = response.data;
+        setProductData({
+          title: data.title,
+          description: data.description,
+          imageUrl: data.imageUrl,
+          price: data.price,
+        });
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+        setError(
+          "Nos encontramos con problemas para encontrar los productos, por favor vuelva mas tarde"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchData();
+    fetchData();
   }, []);
 
   return (
-  <Box p="4" gap="10">
+    <Box p="4" gap="10">
       <Text fontSize="2xl"> Productos destacados</Text>
-    {loading ? (
-    <Box display="flex" justifyContent="center" alignItems="center" mt="20">
-      <Spinner size="lg" />
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" mt="20">
+          <Spinner size="lg" />
+        </Box>
+      ) : error ? (
+        <Text color="secondary" textAlign="center" mt="4">
+          {error}
+        </Text>
+      ) : (
+        <CardLittle
+          title={productData.title}
+          description={productData.description}
+          imageUrl={productData.imageUrl}
+          price={productData.price}
+        />
+      )}
     </Box>
-    ) : error ? (
-      <Text color="secondary" textAlign="center" mt="4">{error}</Text>
-    ) : (
-      <CardLittle
-        title={productData.title}
-        description={productData.description}
-        imageUrl={productData.imageUrl}
-        price={productData.price}
-      />
-    )}
-  </Box>
   );
 }
 export default CardConteinerPlus;
