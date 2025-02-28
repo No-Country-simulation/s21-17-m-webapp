@@ -51,6 +51,8 @@ function RegisterForm({ onClose }) {
       const data = await response.data;
       const { tokend, ...user } = data;
       login({ user, token: tokend });
+
+      window.location.href = data.user.type === "comon" ? "/" : "/profile";
     } catch (error) {
       const errorMessage =
         (typeof error?.response?.data === "string" && error.response.data) ||
@@ -87,7 +89,7 @@ function RegisterForm({ onClose }) {
         marginBlock="25px"
       >
         <CloseButton display="flex" justifySelf="end" onClick={onClose} />
-        <Text fontSize="xl" fontWeight="bold" mb={4}>
+        <Text fontSize="xl" fontWeight="bold" mb={"40px"}>
           Registrarse
         </Text>
         {error && <Text color="primary">{error}</Text>}

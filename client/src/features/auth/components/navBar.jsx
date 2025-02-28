@@ -73,7 +73,7 @@ function NavBar() {
           </Link>
           {userType === "comon" && (
             <>
-              <Link to="">Carrito</Link>
+              <Link href="/cart">Carrito</Link>
               <Link to="">Mis favoritos</Link>
             </>
           )}
@@ -123,7 +123,7 @@ function NavBar() {
           </Link>
           {userType === "comon" && (
             <>
-              <Link to="">Carrito</Link>
+              <Link href="/cart">Carrito</Link>
               <Link to="">Mis favoritos</Link>
             </>
           )}

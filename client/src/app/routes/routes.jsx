@@ -5,6 +5,8 @@ import Cart from '../../features/cart/pages/Cart';
 import { Profile } from '../../features/profile/pages/Profile';
 import AboutUs from "../../features/aboutUs/pages/abutUs";
 import Policy from '../../features/polyci/pages/policy';
+import { ProductProvider } from '../providers/ProductProvider';
+import Product from '../../features/products/pages/product';
 
 /* 
     Se debe importar cada pagina y agregarlo dentro de <routes>, 
@@ -12,14 +14,16 @@ import Policy from '../../features/polyci/pages/policy';
 
 const AppRoutes = () => {
   return (
-
+    <ProductProvider>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/cart' element={<Cart />}/>
-        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/artisan-profile/:id' element={<Profile />}/>
         <Route path='/aboutUs' element={<AboutUs />}/>
         <Route path='/policy' element={<Policy />}/>
+        <Route path='/product/:id' element={<Product />}/>
       </Routes>
+    </ProductProvider>
   );
 };
 
