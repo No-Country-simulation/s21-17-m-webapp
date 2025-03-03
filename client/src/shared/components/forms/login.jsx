@@ -22,7 +22,7 @@ function LoginForm({ onClose }) {
           const data = await response.data;
           const { tokend, ...user } = data;
           login({ user, token: tokend });          
-          window.location.href = data.user.type === "comon" ? "/" : "/artisans";// igual que en registro falta agregar la ruta de perfiles de usuarios comunes
+          window.location.href = data.user.type === "comon" ? "/porfile/:id" : "/artisans/:id";
         } catch (error) {
             const errorMessage =
             (typeof error?.response?.data === "string" && error.response.data) ||
