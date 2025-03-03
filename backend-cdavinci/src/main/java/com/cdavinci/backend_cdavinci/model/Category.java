@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
 
 @Entity
 @Setter
@@ -19,12 +18,8 @@ public class Category {
 
     @Column(name = "description")
     private String description;
-
+    
     @ManyToOne
-    @jakarta.persistence.JoinColumn(name = "category_root_id")
+    @jakarta.persistence.JoinColumn(name = "idCategoryRoot")
     private Category categoryRoot;
-
-    @OneToMany(mappedBy = "categoryRoot", cascade = CascadeType.ALL)
-    private List<Category> subcategories;
-
 }

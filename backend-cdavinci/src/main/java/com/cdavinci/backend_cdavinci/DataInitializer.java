@@ -1,38 +1,60 @@
 package com.cdavinci.backend_cdavinci;
 
-import com.cdavinci.backend_cdavinci.model.Category;
-import com.cdavinci.backend_cdavinci.respository.CategoryRepository;
+import com.cdavinci.backend_cdavinci.dto.category.CategoryListRequestDTO;
+import com.cdavinci.backend_cdavinci.dto.category.CategoryRequestDTO;
+import com.cdavinci.backend_cdavinci.dto.category.CategoryResponseDTO;
+import com.cdavinci.backend_cdavinci.service.CategoryService;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@Component
+@Configuration
 public class DataInitializer {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    public DataInitializer(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+
+    public DataInitializer(CategoryService categoryService) {
+        this.categoryService    = categoryService;
     }
 
-    @PostConstruct // Se ejecuta al inicio de la aplicación
-    public void cargarCategorias() throws IOException {
+    @Bean
+    public CommandLineRunner initializeData() {
+        return args -> {
+            try {
+                 ClassPathResource resource = new ClassPathResource("/data/categories.json");
+                 InputStream inputStream = resource.getInputStream();
+                 ObjectMapper objectMapper = new ObjectMapper();
+                 List<CategoryListRequestDTO> categories = objectMapper.readValue(inputStream, new TypeReference<List<CategoryListRequestDTO>>() {});
 
-        if (categoryRepository.count() == 0) {
-            ObjectMapper objectMapper = new ObjectMapper(); // Para JSON
-            // CSVParser parser = new CSVParser(...); // Para CSV
-
-            InputStream inputStream = getClass().getResourceAsStream("/data/categories.json"); // Ruta al archivo
-            List<Category> categories = objectMapper.readValue(inputStream, new TypeReference<List<Category>>() {
-            });
-            System.out.println(categories);
-            // Guarda la categoría y sus subcategorías (cascadeType)
-            categoryRepository.saveAll(categories);
-        }
+                for (CategoryListRequestDTO itemRequestDTO : categories) {
+                    CategoryRequestDTO categoryRequestDTO = buildCategoryResponseDTO(itemRequestDTO);
+                    CategoryResponseDTO categoryCreatedResponseDTO = categoryService.createCategory(categoryRequestDTO);
+                    Long idCategoryRoot = categoryCreatedResponseDTO.getIdCategory();
+                    if (itemRequestDTO.getSubcategories() != null) {
+                        for (CategoryListRequestDTO subcategoryListRequestDTO : itemRequestDTO.getSubcategories()) {
+                            CategoryRequestDTO subCategoryDTO = buildCategoryResponseDTO(subcategoryListRequestDTO); 
+                            categoryService.createSubcategory(subCategoryDTO, idCategoryRoot);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
     }
+private CategoryRequestDTO buildCategoryResponseDTO(CategoryListRequestDTO categoryListRequestDTO){
+    CategoryRequestDTO categoryRequestDTO = new CategoryRequestDTO();
+    categoryRequestDTO.setName(categoryListRequestDTO.getName());
+    categoryRequestDTO.setDescription(categoryListRequestDTO.getDescription());
+    return categoryRequestDTO;    
+}
 }
