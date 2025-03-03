@@ -71,7 +71,7 @@ function NavBar() {
           <Link to="" onClick={handleShowContactForm}>
             Contáctanos
           </Link>
-          {userType === "comon" && (
+          {userType === "common" && (
             <>
               <Link href="/cart">Carrito</Link>
               <Link to="">Mis favoritos</Link>
@@ -121,7 +121,7 @@ function NavBar() {
           <Link p="2" href="#" onClick={handleShowContactForm}>
             Contáctanos
           </Link>
-          {userType === "comon" && (
+          {userType === "common" && (
             <>
               <Link href="/cart">Carrito</Link>
               <Link to="">Mis favoritos</Link>
