@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @Configuration
+@Profile("init")
 public class DataInitializer {
 
     private final CategoryService categoryService;
