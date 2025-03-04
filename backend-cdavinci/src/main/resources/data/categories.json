@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Cerámica",
+    "description": "Piezas de diseño",
+    "subcategories": [
+      {
+        "name": "Cerámica utilitaria",
+        "description": "",
+        "subcategories": []
+      },
+      {
+        "name": "Esculturas de cerámica",
+        "description": "",
+        "subcategories": []
+      }
+    ]
+  },
+  {
+    "name": "Textiles",
+    "description": "Confección selecta",
+    "subcategories": [
+      {
+        "name": "Tejidos a mano",
+        "description": "",
+        "subcategories": []
+      },
+      {
+        "name": "Bordados",
+        "description": "",
+        "subcategories": []
+      }
+    ]
+  }
+]
