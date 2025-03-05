@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Box, Button, Text, Input, Stack, Link, Field, CloseButton  } from "@chakra-ui/react";
+import { Box, Button, Text, Input, Stack, Field, CloseButton  } from "@chakra-ui/react";
 import { useAuth } from "../../../app/providers/AuthProvider";
 import api from "../../../app/config/api";
+import { useNavigate } from "react-router-dom";
 function LoginForm({ onClose }) {
     const { login } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const navigate = useNavigate(); 
 
     const [formData, setFormData] = useState({
         password: "",
@@ -22,8 +24,8 @@ function LoginForm({ onClose }) {
           const data = await response.data;
           const { tokend, ...user } = data;
           login({ user, token: tokend });          
-          window.location.href = data.user.type === "common" ? `/profile/${data.user.id}` : `/artisans/${data.user.id}`;
-
+          const redirect = data.user.type === "common" ? `/profile/${data.user.id}` : `/artisans/${data.user.id}`;
+            Navigate(redirect);
         } catch (error) {
             const errorMessage =
             (typeof error?.response?.data === "string" && error.response.data) ||
