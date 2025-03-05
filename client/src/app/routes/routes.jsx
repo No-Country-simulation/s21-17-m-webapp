@@ -24,8 +24,8 @@ const AppRoutes = () => {
       <Route path="/artisans" element={<Artisans />} />
       <Route path="/product/:id" element={<Product />} />
         {/* Rutas privadas */}
-      <PrivateRoute path="/artisan/:id" element={<Artisan />} />
-      <PrivateRoute path="/profile/:id" element={<Profile />} />
+        <Route path="/artisan/:id" element={<PrivateRoute element={<Artisan />} />} />
+      <Route path="/profile/:id" element={<PrivateRoute element={<Profile />} />} />
     </Routes>
   );
 };
