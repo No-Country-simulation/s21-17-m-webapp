@@ -13,7 +13,7 @@ import {
 import { FaInstagram, FaFacebook, FaTwitter, FaGlobe } from "react-icons/fa";
 import PropTypes from "prop-types";
 
-export const BannerProfile = ({ user }) => {
+export const BannerProfile = ({ user }) => {  
   const { register, handleSubmit, setValue, watch, reset } = useForm({
     defaultValues: { name: user?.name, socialLink: "", avatar: user?.avatar },
   });
