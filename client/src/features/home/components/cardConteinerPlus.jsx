@@ -18,7 +18,7 @@ function CardConteinerPlus() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/products/getList/1");
+        const response = await api.get("/products/getAll");
         const data = response.data;
         setProductData({
           title: data.title,
