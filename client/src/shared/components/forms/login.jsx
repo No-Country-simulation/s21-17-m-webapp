@@ -4,7 +4,7 @@ import { useAuth } from "../../../app/providers/AuthProvider";
 import api from "../../../app/config/api";
 import { useNavigate } from "react-router-dom";
 function LoginForm({ onClose }) {
-    const { login } = useAuth();
+    const { login, userType  } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate(); 
@@ -23,9 +23,8 @@ function LoginForm({ onClose }) {
           
           const data = await response.data;
           const { tokend, ...user } = data;
-          login({ user, token: tokend });          
-          const redirect = data.user.type === "common" ? `/profile/${data.user.id}` : `/artisans/${data.user.id}`;
-            Navigate(redirect);
+          login({ user, token: tokend });                   
+          navigate('/profile');
         } catch (error) {
             const errorMessage =
             (typeof error?.response?.data === "string" && error.response.data) ||
@@ -79,7 +78,7 @@ function LoginForm({ onClose }) {
                                 borderColor="secondary"
                             />
                         </Field.Root>
-                        <Button type="submit"  bg="secondary">Ingresar</Button>
+                        <Button type="submit"  bg="secondary" disabled={loading}>Ingresar</Button>
                     </Stack>
                 </form>
             </Box>            

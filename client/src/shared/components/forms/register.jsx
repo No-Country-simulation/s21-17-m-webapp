@@ -53,10 +53,8 @@ function RegisterForm({ onClose }) {
       const data = await response.data;
       const { tokend, ...user } = data;
       login({ user, token: tokend });
-
-      const redirect = data.user.type === "common" ? `/profile/${data.user.id}` : `/artisans/${data.user.id}`;
-      Navigate(redirect);
-
+      navigate("/profile");
+            
     } catch (error) {
       const errorMessage =
         (typeof error?.response?.data === "string" && error.response.data) ||

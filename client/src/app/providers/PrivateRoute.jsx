@@ -1,22 +1,15 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider"; 
+import { Route, Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 
-const PrivateRoute = ({ element, ...rest }) => {
-  const { token } = useAuth(); 
+const PrivateRoute = () => {
+  const { token } = useAuth();
 
-  return (
-    <Route
-      {...rest}
-      element={
-        token ? (
-          element
-        ) : (
-          <Navigate to="/" />
-        )
-      }
-    />
-  );
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

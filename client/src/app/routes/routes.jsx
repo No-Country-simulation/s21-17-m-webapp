@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  Route,
-  Routes,
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "../../features/home/pages/home";
 import Cart from "../../features/cart/pages/Cart";
 import AboutUs from "../../features/aboutUs/pages/abutUs";
@@ -13,7 +10,6 @@ import { Artisan } from "../../features/artisans/pages/Artisan";
 import { Profile } from "../../features/profile/pages/Profile";
 import PrivateRoute from "../providers/PrivateRoute";
 
-
 const AppRoutes = () => {
   return (
     <Routes>
@@ -22,10 +18,13 @@ const AppRoutes = () => {
       <Route path="/aboutUs" element={<AboutUs />} />
       <Route path="/policy" element={<Policy />} />
       <Route path="/artisans" element={<Artisans />} />
+      <Route path="/artisan/:id" element={<Artisan />} />
       <Route path="/product/:id" element={<Product />} />
-        {/* Rutas privadas */}
-        <Route path="/artisan/:id" element={<PrivateRoute element={<Artisan />} />} />
-      <Route path="/profile/:id" element={<PrivateRoute element={<Profile />} />} />
+      {/* Rutas privadas */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/profile" element={<Profile />} />
+        {/* Aquí se agregan el resto de rutas privadas */}
+      </Route>
     </Routes>
   );
 };
