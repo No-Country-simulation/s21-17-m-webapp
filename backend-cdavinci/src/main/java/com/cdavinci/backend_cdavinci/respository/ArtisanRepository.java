@@ -7,9 +7,11 @@ import com.cdavinci.backend_cdavinci.model.Artisan;
 import com.cdavinci.backend_cdavinci.model.User;
 
 @Repository
-public interface ArtisanRepository extends JpaRepository <Artisan, Long>{
+public interface ArtisanRepository extends JpaRepository<Artisan, Long> {
 
         boolean existsByUser(User user);
 
         Optional<Artisan> findByUser(User user);
+
+        Optional<Artisan> findByUserId(Long userId);
 }

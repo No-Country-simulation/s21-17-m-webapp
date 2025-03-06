@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ArtisanDTO {
+    private Long id;
     private String name;
     private String aboutMe;
     private String imageUrl;

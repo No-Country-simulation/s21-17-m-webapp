@@ -27,13 +27,20 @@ public class ArtisanService {
     public List<ArtisanDTO> getArtisans() {
         return artisanRepository.findAll()
                 .stream()
-                .map(artisan -> new ArtisanDTO(
-                        artisan.getName(),
-                        artisan.getAboutMe(),
-                        artisan.getImageUrl(),
-                        artisan.getLocality(),
-                        artisan.getSpeciality()))
+                .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public ArtisanDTO getArtisanById(Long id) {
+        return artisanRepository.findById(id)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new RuntimeException("Artesano no encontrado con ID: " + id));
+    }
+
+    public ArtisanDTO getArtisanByUserId(Long userId) {
+        return artisanRepository.findByUserId(userId)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new RuntimeException("Artesano no encontrado con ID User: " + userId));
     }
 
     public Artisan createArtisan(User user, ArtisanDTO artisanDTO) {
@@ -66,7 +73,6 @@ public class ArtisanService {
     }
 
     public void deleteArtisan(Long id, User user) {
-      
         Artisan artisan = artisanRepository.findByUser(user)
                 .orElseThrow(() -> new RuntimeException("No existe un perfil de artesano para este usuario."));
         if (!artisan.getId().equals(id)) {
@@ -86,5 +92,15 @@ public class ArtisanService {
 
     public Artisan save(Artisan artisan) {
         return artisanRepository.save(artisan);
+    }
+
+    private ArtisanDTO convertToDto(Artisan artisan) {
+        return new ArtisanDTO(
+                artisan.getId(),
+                artisan.getName(),
+                artisan.getAboutMe(),
+                artisan.getImageUrl(),
+                artisan.getLocality(),
+                artisan.getSpeciality());
     }
 }
