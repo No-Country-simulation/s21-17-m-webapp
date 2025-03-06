@@ -31,12 +31,14 @@ import {
   DialogActionTrigger,
 } from "../../../shared/components/dialog";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
+import { toaster } from "../../../shared/components/toaster";
+import { deleteProduct } from "../../products/services/products";
 
 export const CardList = ({ title, cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 3;
 
-  const { deleteProduct } = useProfileProductsContext();
+  const { deleteProduct: deleteProductStore } = useProfileProductsContext();
   const [productToDelete, setProductToDelete] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -48,11 +50,29 @@ export const CardList = ({ title, cards }) => {
     setCurrentPage(page);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (productToDelete) {
-      deleteProduct(productToDelete.id);
-
-      setOpen(false);
+      try {
+        await deleteProduct(productToDelete.idProduct);
+        await deleteProductStore(productToDelete.idProduct);
+        setOpen(false);
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.error ||
+          error?.message ||
+          "Ocurrió un error desconocido";
+        toaster.create(
+          {
+            title: "Error eliminando producto",
+            description: errorMessage,
+            type: "error",
+            duration: 5000,
+          },
+          { closable: true }
+        );
+      } finally {
+        setOpen(false);
+      }
     }
   };
 
@@ -75,9 +95,9 @@ export const CardList = ({ title, cards }) => {
             </Text>
           ) : (
             <SimpleGrid columns={{ base: 1 }} spacing={4} gap={4}>
-              {currentCards.reverse().map((card, index) => (
+              {currentCards.reverse().map((card) => (
                 <Box
-                  key={index}
+                  key={card.idProduct}
                   borderWidth="1px"
                   borderColor={"secondary"}
                   bg="primary.50"
@@ -88,7 +108,7 @@ export const CardList = ({ title, cards }) => {
                   <Flex>
                     <Box flexShrink={0} ml={4}>
                       <Image
-                        src={card?.image ? URL.createObjectURL(card.image) : ""}
+                        src={card?.urlImage}
                         alt={card.title}
                         boxSize="100px"
                         objectFit="cover"
@@ -98,7 +118,7 @@ export const CardList = ({ title, cards }) => {
 
                     <VStack align="flex-start" flex={1} spacing={2} ml={2}>
                       <Text fontSize="xl" fontWeight="bold">
-                        {card.title}
+                        {card.name}
                       </Text>
                       <Text fontSize="md" color="gray.600">
                         {card.description}

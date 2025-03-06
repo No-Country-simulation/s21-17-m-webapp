@@ -1,11 +1,20 @@
 import axios from "axios";
 import { getEnvVariables } from "../constants/getEnvVariables";
+import { v4 as uuidv4 } from "uuid"; // Importar uuid
+
 const { VITE_CLOUDINARY_NAME, VITE_CLOUDINARY_PRESET } = getEnvVariables();
-const uploadImageToCloudinary = async (file, folder = "default_folder") => {
+
+const uploadImageToCloudinary = async (file, folder = "default_folder", imageName = null) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", `${VITE_CLOUDINARY_PRESET}`);
   formData.append("folder", folder);
+
+  const uniqueId = uuidv4();
+  const finalImageName = imageName ? `${imageName}_${uniqueId}` : null;
+  if (finalImageName) {
+    formData.append("public_id", finalImageName);
+  }
 
   try {
     const response = await axios.post(

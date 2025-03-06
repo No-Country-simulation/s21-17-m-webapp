@@ -20,8 +20,14 @@ import {
 } from "../../../shared/components/native-select";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
 import { useCategoryContext } from "../../products/store/CategoryContext";
+import uploadImageToCloudinary from "../../../shared/services/cloundinary";
+import { toaster } from "../../../shared/components/toaster";
+import { useArtisanContext } from "../store/ArtisanContext";
+import { postProduct } from "../../products/services/products";
 
 export const AddProduct = () => {
+  const { artisan } = useArtisanContext();
+
   const {
     register,
     handleSubmit,
@@ -32,22 +38,48 @@ export const AddProduct = () => {
   const { categories, loading, error } = useCategoryContext();
 
   const [imagePreview, setImagePreview] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onSubmit = async (data) => {
     if (data.image && data.image[0]) {
-      const file = data.image[0];
-      const imageBlob = new Blob([file], { type: file.type });
+      setIsUploading(true);
+      try {
+        const urlImage = await uploadImageToCloudinary(
+          data.image[0],
+          "products",
+          data.name
+        );
 
-      const productData = {
-        ...data,
-        image: imageBlob,
-      };
+        const productResponse = await postProduct({
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          stock: data.stock,
+          urlImage: urlImage,
+          idCategory: data.category,
+          idArtisan: artisan.id,
+        });
 
-      addProduct(productData);
+        await addProduct(productResponse);
+        setImagePreview(null);
+        reset();
+      } catch (error) {
+        console.error("Error al subir la imagen o agregar el producto:", error);
+        toaster.create(
+          {
+            title: "Error al subir la imagen o agregar el producto",
+            description: "Por favor, inténtalo de nuevo.",
+            type: "error",
+            duration: 5000,
+          },
+          { closable: true }
+        );
+      } finally {
+        setIsUploading(false);
+      }
+    } else {
+      alert("Selecciona una imagen para el producto.");
     }
-
-    setImagePreview(null);
-    reset();
   };
 
   const handleImageChange = (e) => {
@@ -167,7 +199,10 @@ export const AddProduct = () => {
                       })}
                     >
                       {categories.map((category) => (
-                        <option key={category.idCategory} value={category.name}>
+                        <option
+                          key={category.idCategory}
+                          value={category.idCategory}
+                        >
                           {category.name}
                         </option>
                       ))}
@@ -247,6 +282,8 @@ export const AddProduct = () => {
             color={"black"}
             type="submit"
             form="product-form"
+            isLoading={isUploading}
+            loadingText="Guardando..."
           >
             Guardar
           </Button>
