@@ -7,6 +7,8 @@ import com.cdavinci.backend_cdavinci.model.User;
 import com.cdavinci.backend_cdavinci.respository.RoleRepository;
 import com.cdavinci.backend_cdavinci.service.ArtisanService;
 import com.cdavinci.backend_cdavinci.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,19 @@ public class ArtisanController {
         Map<String, List<ArtisanDTO>> response = new HashMap<>();
         response.put("artisans", artisans);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Getting a artisan, idArtisan required", description = "A only one artisan")
+    @GetMapping("/artisan/{idArtisan}")
+    public ResponseEntity<ArtisanDTO> getArtisanById(@PathVariable Long idArtisan) {
+        ArtisanDTO artisan = artisanService.getArtisanById(idArtisan);
+        return ResponseEntity.ok(artisan);
+    }
+
+    @GetMapping("/artisan/user/{userId}")
+    public ResponseEntity<ArtisanDTO> getArtisanByUserId(@PathVariable Long userId) {
+        ArtisanDTO artisan = artisanService.getArtisanByUserId(userId);
+        return ResponseEntity.ok(artisan);
     }
 
     @PostMapping("/create/artisan")
@@ -92,19 +107,19 @@ public class ArtisanController {
 
     @DeleteMapping("/artisans/{id}")
     public ResponseEntity<Void> deleteArtisan(@PathVariable Long id, HttpServletRequest request) {
-        
+
         Long userId = (Long) request.getAttribute("user_id");
         User user = userService.findById(userId);
 
         if (user == null) {
-    
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         try {
             artisanService.deleteArtisan(id, user);
         } catch (RuntimeException e) {
-           
+
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
