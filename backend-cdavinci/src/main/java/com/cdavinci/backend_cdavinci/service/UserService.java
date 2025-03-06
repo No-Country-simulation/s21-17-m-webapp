@@ -1,13 +1,11 @@
 package com.cdavinci.backend_cdavinci.service;
 
 import java.util.Collections;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.cdavinci.backend_cdavinci.model.User;
 import com.cdavinci.backend_cdavinci.respository.UserRepository;
 
@@ -47,5 +45,13 @@ public class UserService implements UserDetailsService{
     public void save(User user){
         userRepository.save(user);
     }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+    public User findByGmail(String gmail) {
+        return userRepository.findByGmail(gmail).orElse(null);
+    }
+    
 
 }
