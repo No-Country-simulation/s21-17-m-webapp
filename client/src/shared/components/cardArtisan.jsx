@@ -3,11 +3,11 @@ import {
   Button,
   Card,
   HStack,
-  Image,
   Stack,
   Text,
   Strong,
   Box,
+  Avatar,
 } from "@chakra-ui/react";
 
 function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
@@ -20,13 +20,18 @@ function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
     >
       <Card.Body>
         <HStack mb="6" gap="3">
-          <Image
-            src={imageUrl}
-            alt={name}
-            borderRadius="full"
-            boxSize="50px"
-            objectFit="cover"
-          />
+          <Avatar.Root
+            width={50}
+            height={50}
+            border="2px solid white"
+            bg={"secondary"}
+          >
+            <Avatar.Fallback name={name} fontSize={"xl"} />
+            <Avatar.Image
+              src={imageUrl === "" ? null : imageUrl}
+              alt="Avatar"
+            />
+          </Avatar.Root>
           <Stack gap="0">
             <Text fontWeight="semibold" textStyle="sm">
               {name}
@@ -46,7 +51,7 @@ function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
       <Card.Footer justifyContent="flex-end">
         <Button variant="outline" size="sm">
           Ver más
-        </Button>       
+        </Button>
       </Card.Footer>
     </Card.Root>
   );

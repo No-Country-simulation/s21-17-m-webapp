@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Avatar,
@@ -12,10 +12,17 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import uploadImageToCloudinary from "../../../shared/services/cloundinary";
-import { postArtisan } from "../../artisans/services/artisan";
+import { postArtisan, updateArtisan } from "../../artisans/services/artisan";
 import { toaster } from "../../../shared/components/toaster";
+import { useArtisanContext } from "../store/ArtisanContext";
 
-export const ArtisanProfile = ({ artisan }) => {
+export const ArtisanProfile = () => {
+  const {
+    artisan,
+    createArtisan: createArtisanStore,
+    updateArtisan: updateArtisanStore,
+  } = useArtisanContext();
+
   const {
     register,
     handleSubmit,
@@ -32,29 +39,116 @@ export const ArtisanProfile = ({ artisan }) => {
     },
   });
 
-  const [isEditing, setIsEditing] = useState(!artisan);
+  const [isEditing, setIsEditing] = useState(false);
   const [imagePreview, setImagePreview] = useState(artisan?.imageUrl || "");
-  const [isUploading, setIsUploading] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (artisan) {
+      reset({
+        name: artisan.name,
+        aboutMe: artisan.aboutMe,
+        imageUrl: artisan.imageUrl,
+        locality: artisan.locality,
+        speciality: artisan.speciality,
+      });
+      setImagePreview(artisan.imageUrl);
+    }
+  }, [artisan, reset]);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setValue("imageUrl", event.target.files);
+    }
+  };
+
+  const handleCancel = () => {
+    reset();
+    setImagePreview(artisan?.imageUrl || "");
+    setIsEditing(false);
+  };
+
   const onCreate = async (data) => {
+    setLoading(true);
     try {
-      await postArtisan(data);
+      if (data.imageUrl && data.imageUrl[0]) {
+        const imageUrl = await uploadImageToCloudinary(
+          data.imageUrl[0],
+          "profiles",
+          data.name
+        );
+        data.imageUrl = imageUrl;
+      } else {
+        data.imageUrl = "";
+      }
+
+      const newArtisan = await postArtisan(data);
+      createArtisanStore(newArtisan);
+
       toaster.create({
         title: "¡Éxito!",
         description: "El artesano ha sido creado con éxito.",
         status: "success",
-        type: "success",
         duration: 5000,
         isClosable: true,
       });
     } catch (error) {
       const errorMessage =
-        (typeof error?.response?.data === "string" && error.response.data) ||
-        (typeof error?.message === "string" && error.message) ||
+        error?.response?.data ||
+        error?.message ||
         "Ocurrió un error desconocido";
       toaster.create({
         title: "Error al crear el artesano",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onEdit = async (data) => {
+    setLoading(true);
+    console.log(data);
+    try {
+      if (data.imageUrl) {
+        if (data.imageUrl instanceof FileList && data.imageUrl[0]) {
+          const imageUrl = await uploadImageToCloudinary(
+            data.imageUrl[0],
+            "profiles"
+          );
+          data.imageUrl = imageUrl;
+        } else {
+          data.imageUrl = artisan.imageUrl;
+        }
+      }
+
+      const updatedArtisan = await updateArtisan(data);
+      updateArtisanStore(updatedArtisan);
+
+      toaster.create({
+        title: "Artesano actualizado",
+        description: "El artesano ha sido actualizado.",
+        type: "success",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data ||
+        error?.message ||
+        "Ocurrió un error desconocido";
+      toaster.create({
+        title: "Error al actualizar el artesano",
         description: errorMessage,
         status: "error",
         type: "error",
@@ -65,42 +159,14 @@ export const ArtisanProfile = ({ artisan }) => {
       setLoading(false);
     }
   };
-  const onEdit = async (data) => {
-    // Lógica para editar un artesano existente
-    console.log("Editar artesano:", data);
-  };
 
   const onSubmit = async (data) => {
     if (artisan) {
-      // Si hay artisan, estamos editando
       await onEdit(data);
     } else {
-      // Si no hay artisan, estamos creando
       await onCreate(data);
     }
     setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    reset();
-    setImagePreview(artisan?.imageUrl || "");
-    setIsEditing(false);
-  };
-
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setIsUploading(true);
-      try {
-        const imageUrl = await uploadImageToCloudinary(file, "profiles");
-        setImagePreview(imageUrl);
-        setValue("imageUrl", imageUrl);
-      } catch (error) {
-        console.error("Error al subir la imagen:", error);
-      } finally {
-        setIsUploading(false);
-      }
-    }
   };
 
   return (
@@ -131,7 +197,6 @@ export const ArtisanProfile = ({ artisan }) => {
                 cursor="pointer"
                 width="100%"
                 height="100%"
-                disabled={isUploading}
               />
               <Button
                 as="label"
@@ -142,7 +207,6 @@ export const ArtisanProfile = ({ artisan }) => {
                 width="100%"
                 mt={2}
                 textAlign="center"
-                isLoading={isUploading}
                 loadingText="Subiendo..."
               >
                 Cambiar Imagen
@@ -253,5 +317,5 @@ export const ArtisanProfile = ({ artisan }) => {
 };
 
 ArtisanProfile.propTypes = {
-  artisan: PropTypes.object | null,
+  artisan: PropTypes.object,
 };
