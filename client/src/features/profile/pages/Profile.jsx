@@ -1,6 +1,6 @@
 import { useAuth } from "../../../app/providers/AuthProvider";
 import { AddProduct } from "../components/AddProduct";
-import { BannerProfile } from "../components/BannerProfile";
+import { ArtisanProfile } from "../components/ArtisanProfile";
 import { CardList } from "../components/CardList";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
 
@@ -8,11 +8,19 @@ export const Profile = () => {
   const { user, userType } = useAuth();
   const { products } = useProfileProductsContext();
 
+  /* const artisan = {
+    name: "",
+    aboutMe: "",
+    imageUrl: "",
+    locality: "",
+    speciality: "",
+  }; */
+  const artisan = null;
   return (
     <div>
-      <BannerProfile user={user} />
       {userType === "artisan" && (
         <>
+          <ArtisanProfile artisan={artisan} />
           <CardList title="Manualidades publicadas" cards={products} />
           <AddProduct />
         </>
