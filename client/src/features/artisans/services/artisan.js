@@ -1,12 +1,21 @@
 import api from "../../../app/config/api";
 
-// Obtener lista de artesanos (GET)
 export const getArtisans = async () => {
   try {
     const response = await api.get("/landing/artisans");
     return response.data;
   } catch (error) {
     console.error("Error al obtener los artesanos:", error);
+    throw error;
+  }
+};
+
+export const getArtisanById = async (artisanId) => {
+  try {
+    const response = await api.get(`/landing/artisan/${artisanId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el artesano:", error);
     throw error;
   }
 };
@@ -33,10 +42,7 @@ export const postArtisan = async (artisanData) => {
 
 export const updateArtisan = async (artisanData) => {
   try {
-    const response = await api.put(
-      `/landing/update/artisan`,
-      artisanData
-    );
+    const response = await api.put(`/landing/update/artisan`, artisanData);
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el artesano:", error);

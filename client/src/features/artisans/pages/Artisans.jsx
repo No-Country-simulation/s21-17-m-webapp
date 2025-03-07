@@ -42,10 +42,10 @@ export const Artisans = () => {
             }}
             gap={6}
           >
-            {artisans.map((artisan, index) => (
+            {artisans.map((artisan) => (
               <CardArtisan
-                key={index} //TODO: Agregar id
-                /* id={artisan.id} */
+                key={artisan.id}
+                id={artisan.id}
                 name={artisan.name}
                 aboutMe={artisan.aboutMe}
                 imageUrl={artisan.imageUrl}

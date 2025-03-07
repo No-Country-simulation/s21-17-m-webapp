@@ -9,8 +9,9 @@ import {
   Box,
   Avatar,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
+function CardArtisan({ id, name, aboutMe, imageUrl, locality, especiality }) {
   return (
     <Card.Root
       width="320px"
@@ -49,15 +50,18 @@ function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
         </Box>
       </Card.Body>
       <Card.Footer justifyContent="flex-end">
-        <Button variant="outline" size="sm">
-          Ver más
-        </Button>
+        <Link to={`/artisan/${id}`}>
+          <Button variant="outline" size="sm">
+            Más información
+          </Button>
+        </Link>
       </Card.Footer>
     </Card.Root>
   );
 }
 
 CardArtisan.propTypes = {
+  id: PropTypes.number,
   name: PropTypes.string,
   aboutMe: PropTypes.string,
   imageUrl: PropTypes.string,
