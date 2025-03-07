@@ -5,13 +5,7 @@ import CardArtisan from "../../../shared/components/cardArtisan";
 import api from "../../../app/config/api";
 
 function ArtisanConteiner() {
-  const [artisanData, setArtisanData] = useState({
-    name: "",
-    aboutMe: "",
-    imageUrl: "",
-    locality: "",
-    especiality: "",
-  });
+  const [artisanData, setArtisanData] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,13 +15,7 @@ function ArtisanConteiner() {
       try {
         const response = await api.get("/landing/artisans");
         const data = response.data;
-        setArtisanData({
-          name: data.name,
-          aboutMe: data.aboutMe,
-          imageUrl: data.imageUrl,
-          locality: data.locality,
-          especiality: data.especiality,
-        });
+        setArtisanData(data);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
         setError(
@@ -51,14 +39,16 @@ function ArtisanConteiner() {
         <Text color="secondary" textAlign="center" mt="4">
           {error}
         </Text>
-      ) : (
+      ) : artisanData.map((artisan) =>(
         <CardArtisan
-          name={artisanData.name}
-          aboutMe={artisanData.aboutMe}
-          imageUrl={artisanData.imageUrl}
-          locality={artisanData.locality}
-          especiality={artisanData.especiality}
+          key={artisan.id}
+          name={artisan.name}
+          aboutMe={artisan.aboutMe}
+          imageUrl={artisan.imageUrl}
+          locality={artisan.locality}
+          especiality={artisan.especiality}
         />
+      )
       )}
     </Box>
   );

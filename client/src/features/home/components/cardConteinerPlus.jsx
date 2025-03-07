@@ -5,13 +5,7 @@ import { Box, Text, Spinner } from "@chakra-ui/react";
 import CardLittle from "../../../shared/components/cardLittle";
 
 function CardConteinerPlus() {
-  const [productData, setProductData] = useState({
-    title: "",
-    description: "",
-    imageUrl: "",
-    price: "",
-  });
-
+  const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,12 +14,7 @@ function CardConteinerPlus() {
       try {
         const response = await api.get("/products/getAll");
         const data = response.data;
-        setProductData({
-          title: data.title,
-          description: data.description,
-          imageUrl: data.imageUrl,
-          price: data.price,
-        });
+        setProductData(data);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
         setError(
@@ -50,13 +39,15 @@ function CardConteinerPlus() {
         <Text color="secondary" textAlign="center" mt="4">
           {error}
         </Text>
-      ) : (
+      ) : productData.map((product) => (
         <CardLittle
-          title={productData.title}
-          description={productData.description}
-          imageUrl={productData.imageUrl}
-          price={productData.price}
+          key={product.id}
+          title={product.title}
+          description={product.description}
+          imageUrl={product.imageUrl}
+          price={product.price}
         />
+        )
       )}
     </Box>
   );
