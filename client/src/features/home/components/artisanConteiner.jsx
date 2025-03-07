@@ -46,23 +46,25 @@ function ArtisanConteiner() {
           justifyContent="space-between"
           gap="10"
         >
-          {artisanData.reverse().slice(0,3).map((artisan) => (
-            <CardArtisan
-              key={artisan.id}
-              name={artisan.name}
-              aboutMe={artisan.aboutMe}
-              imageUrl={artisan.imageUrl}
-              locality={artisan.locality}
-              especiality={artisan.especiality}
-            />
-          ))}
-          {
-            artisanData.length === 0 && (
-              <Text color="secondary" textAlign="center" mt="4">
-                No se encontraron artesanos.
-              </Text>
-            )
-          }
+          {artisanData
+            .reverse()
+            .slice(0, 3)
+            .map((artisan) => (
+              <CardArtisan
+                key={artisan.id}
+                id={artisan.id}
+                name={artisan.name}
+                aboutMe={artisan.aboutMe}
+                imageUrl={artisan.imageUrl}
+                locality={artisan.locality}
+                especiality={artisan.especiality}
+              />
+            ))}
+          {artisanData.length === 0 && (
+            <Text color="secondary" textAlign="center" mt="4">
+              No se encontraron artesanos.
+            </Text>
+          )}
         </Box>
       )}
     </Box>
