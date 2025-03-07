@@ -124,7 +124,7 @@ public class BuyService {
     private BuyResponseDTO buildBuyResponseDTO(Buy buy){
         BuyResponseDTO buyResponseDTO = new BuyResponseDTO();
         buyResponseDTO.setIdBuy(buy.getIdBuy());
-        buyResponseDTO.setCustomerId(buy.getCustomer().getIdProduct());
+        buyResponseDTO.setCustomerId(buy.getCustomer().getIdCustomer());
         buyResponseDTO.setBuyDate(buy.getBuyDate());
         buyResponseDTO.setAmount(buy.getAmount());
         return buyResponseDTO;
