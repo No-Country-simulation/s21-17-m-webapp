@@ -116,8 +116,7 @@ export const ArtisanProfile = () => {
   };
 
   const onEdit = async (data) => {
-    setLoading(true);
-    console.log(data);
+    setLoading(true);    
     try {
       if (data.imageUrl) {
         if (data.imageUrl instanceof FileList && data.imageUrl[0]) {

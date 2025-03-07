@@ -7,11 +7,16 @@ import { useArtisanContext } from "../store/ArtisanContext";
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
 import { getArtisanByUserId } from "../../artisans/services/artisan";
 import { getProductsByArtisan } from "../../products/services/products";
+import { useCustomerContext } from "../store/CustomerContext";
+import { getCustomersByUserId } from "../services/customer";
+import { CustomerList } from "../components/CustomerList";
+import { AddCustomer } from "../components/AddCustomer";
 
 export const Profile = () => {
   const { user, userType } = useAuth();
   const { products, addProducts } = useProfileProductsContext();
   const { artisan, createArtisan } = useArtisanContext();
+  const { customers, addCustomers } = useCustomerContext();
 
   useEffect(() => {
     async function getArtisan() {
@@ -45,6 +50,21 @@ export const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artisan]);
 
+  useEffect(() => {
+    async function getCustomers() {
+      try {
+        if (!user) return;
+        if (userType !== "common") return;
+        const customersData = await getCustomersByUserId(user.id);
+        addCustomers(customersData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getCustomers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [artisan]);
+
   return (
     <div>
       {userType === "artisan" && (
@@ -56,6 +76,12 @@ export const Profile = () => {
               <AddProduct />
             </>
           )}
+        </>
+      )}
+      {userType === "common" && (
+        <>
+          <CustomerList title="Perfiles de envió" customers={customers} />
+          <AddCustomer />
         </>
       )}
     </div>
