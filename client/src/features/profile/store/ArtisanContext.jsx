@@ -6,7 +6,6 @@ const ArtisanContext = createContext();
 export const ArtisanProvider = ({ children }) => {
   const [artisan, setArtisan] = useState(null);
 
-  // Función para actualizar el artesano
   const updateArtisan = (updatedFields) => {
     setArtisan((prevArtisan) => ({
       ...prevArtisan,
