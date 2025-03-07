@@ -39,15 +39,31 @@ function CardConteinerPlus() {
         <Text color="secondary" textAlign="center" mt="4">
           {error}
         </Text>
-      ) : productData.map((product) => (
-        <CardLittle
-          key={product.id}
-          title={product.title}
-          description={product.description}
-          imageUrl={product.imageUrl}
-          price={product.price}
-        />
-        )
+      ) : (
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          gap="10"
+        >
+          {productData.reverse().map((product) => (
+            <CardLittle
+              key={product.id}
+              title={product.name}
+              description={product.description}
+              imageUrl={product.urlImage}
+              price={product.price}
+              id={product.id}
+            />
+          ))}
+          {
+            productData.length === 0 && (
+              <Text color="secondary" textAlign="center" mt="4">
+                No se encontraron productos.
+              </Text>
+            )
+          }
+        </Box>
       )}
     </Box>
   );

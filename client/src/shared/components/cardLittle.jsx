@@ -46,7 +46,8 @@ function CardLittle({title, description, imageUrl, price, id }) {
             <Image src={imageUrl} alt={title}/>
             <Card.Body gap="2">
                 <Card.Title>{title}</Card.Title>
-                <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2"> {price} </Text>
+                <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2"> $ {price} </Text>
+                <Text textStyle="sm" color="gray.500" mt="2"> {description} </Text>
             </Card.Body>
             <Card.Footer gap="2">
                 <Button color="neutral" bg="prymary" onClick={handleAddToCart}>Agregar al carrito</Button>

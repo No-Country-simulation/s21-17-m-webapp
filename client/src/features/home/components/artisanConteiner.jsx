@@ -15,7 +15,7 @@ function ArtisanConteiner() {
       try {
         const response = await api.get("/landing/artisans");
         const data = response.data;
-        setArtisanData(data);
+        setArtisanData(data.artisans);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
         setError(
@@ -30,7 +30,7 @@ function ArtisanConteiner() {
   }, []);
   return (
     <Box p="4" gap="10" alignItems="center">
-      <Text fontSize="2xl">Nuestros artesanos</Text>
+      <Text fontSize="2xl">Nuevos artesanos</Text>
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" mt="20">
           <Spinner size="lg" />
@@ -39,16 +39,31 @@ function ArtisanConteiner() {
         <Text color="secondary" textAlign="center" mt="4">
           {error}
         </Text>
-      ) : artisanData.map((artisan) =>(
-        <CardArtisan
-          key={artisan.id}
-          name={artisan.name}
-          aboutMe={artisan.aboutMe}
-          imageUrl={artisan.imageUrl}
-          locality={artisan.locality}
-          especiality={artisan.especiality}
-        />
-      )
+      ) : (
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          gap="10"
+        >
+          {artisanData.reverse().slice(0,3).map((artisan) => (
+            <CardArtisan
+              key={artisan.id}
+              name={artisan.name}
+              aboutMe={artisan.aboutMe}
+              imageUrl={artisan.imageUrl}
+              locality={artisan.locality}
+              especiality={artisan.especiality}
+            />
+          ))}
+          {
+            artisanData.length === 0 && (
+              <Text color="secondary" textAlign="center" mt="4">
+                No se encontraron artesanos.
+              </Text>
+            )
+          }
+        </Box>
       )}
     </Box>
   );
