@@ -18,12 +18,12 @@ function FormCart ( { onConfirmCompra } ){
     };
 
     return (
-        <Box>
-            <Text>Datos de envio</Text>
+        <Box color="secondary">
+            <Text fontSize={"xl"} mb="2" mt="2">Datos de envio</Text>
             <form>
                 <Stack>
                     <FieldRoot>
-                        <FieldLabel>Direccion</FieldLabel>
+                        <FieldLabel fontSize={"m"} mb="2">Direccion</FieldLabel>
                         <Input                 
                             id="address"
                             name="address"
@@ -35,7 +35,7 @@ function FormCart ( { onConfirmCompra } ){
                             borderColor="secondary"
                         />
                     </FieldRoot>
-                    <Button onClick={handleConfirmCompra}>Confirmar compra</Button>
+                    <Button bg="secondary" onClick={handleConfirmCompra}>Confirmar compra</Button>
                 </Stack>
             </form>
         </Box>
