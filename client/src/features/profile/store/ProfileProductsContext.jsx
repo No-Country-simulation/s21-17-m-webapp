@@ -6,30 +6,33 @@ const ProfileProductsContext = createContext();
 export const ProfileProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
+  const addProducts = (productsData) => {
+    setProducts(productsData);
+  };
+
   const addProduct = (newProduct) => {
-    setProducts((prevProducts) => [
-      ...prevProducts,
-      { ...newProduct, id: Date.now() },
-    ]);
+    setProducts((prevProducts) => [...prevProducts, { ...newProduct }]);
   };
 
   const updateProduct = (updatedProduct) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === updatedProduct.id ? updatedProduct : product
+        product.idProduct === updatedProduct.idProduct
+          ? updatedProduct
+          : product
       )
     );
   };
 
   const deleteProduct = (productId) => {
     setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productId)
+      prevProducts.filter((product) => product.idProduct !== productId)
     );
   };
 
   return (
     <ProfileProductsContext.Provider
-      value={{ products, addProduct, updateProduct, deleteProduct }}
+      value={{ products, addProduct, updateProduct, deleteProduct, addProducts }}
     >
       {children}
     </ProfileProductsContext.Provider>

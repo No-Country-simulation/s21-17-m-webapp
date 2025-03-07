@@ -1,33 +1,67 @@
-import React from "react";
-import { Button, Card, HStack, Image, Stack, Strong, Text } from "@chakra-ui/react"
+import { PropTypes } from "prop-types";
+import {
+  Button,
+  Card,
+  HStack,
+  Stack,
+  Text,
+  Strong,
+  Box,
+  Avatar,
+} from "@chakra-ui/react";
 
-
-function CardArtisan({ name, aboutMe, imageUrl, locality, especiality}) {
-
-    return(
-        <Card.Root width="320px" bg="neutral.200">
-        <Card.Body>
-          <HStack mb="6" gap="3">
-            <Image src={imageUrl} name={name}/>
-            <Stack gap="0">
-              <Text fontWeight="semibold" textStyle="sm">
-                {name}
-              </Text>
-              <Text color="primary" textStyle="sm">
-                {locality}
-              </Text>
-            </Stack>
-          </HStack>
-          <Card.Description>
-            <Strong color="fg">{especiality}</Strong>
+function CardArtisan({ name, aboutMe, imageUrl, locality, especiality }) {
+  return (
+    <Card.Root
+      width="320px"
+      bg="neutral.200"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <Card.Body>
+        <HStack mb="6" gap="3">
+          <Avatar.Root
+            width={50}
+            height={50}
+            border="2px solid white"
+            bg={"secondary"}
+          >
+            <Avatar.Fallback name={name} fontSize={"xl"} />
+            <Avatar.Image
+              src={imageUrl === "" ? null : imageUrl}
+              alt="Avatar"
+            />
+          </Avatar.Root>
+          <Stack gap="0">
+            <Text fontWeight="semibold" textStyle="sm">
+              {name}
+            </Text>
+            <Text color="secondary.500" textStyle="sm">
+              {locality}
+            </Text>
+          </Stack>
+        </HStack>
+        <Box>
+          <Strong color="fg">{especiality}</Strong>
+          <Text fontSize="sm" color="gray.600" mt="2">
             {aboutMe}
-          </Card.Description>
-        </Card.Body>
-        <Card.Footer>
-          <Button bg="neutral" flex="1"></Button>
-        </Card.Footer>
-      </Card.Root>
-    );
+          </Text>
+        </Box>
+      </Card.Body>
+      <Card.Footer justifyContent="flex-end">
+        <Button variant="outline" size="sm">
+          Ver más
+        </Button>
+      </Card.Footer>
+    </Card.Root>
+  );
 }
 
+CardArtisan.propTypes = {
+  name: PropTypes.string,
+  aboutMe: PropTypes.string,
+  imageUrl: PropTypes.string,
+  locality: PropTypes.string,
+  especiality: PropTypes.string,
+};
 export default CardArtisan;

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useArtisanContext } from "../../features/profile/store/ArtisanContext";
 
 const AuthContext = createContext();
 
@@ -10,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("userType") || null
   );
   const [token, setToken] = useState(sessionStorage.getItem("token") || null);
+  const { resetArtisan } = useArtisanContext();
 
   useEffect(() => {
     if (!user || !userType || !token) {
@@ -34,6 +36,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     setUserType(null);
+    resetArtisan();
     sessionStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("userType");
