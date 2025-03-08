@@ -21,6 +21,16 @@ export const getProductsByArtisan = async (artisanId) => {
   }
 };
 
+export const updateProduct = async (productData) => {
+  try {
+    const response = await api.put(`/products/update`, productData);
+    return response; //TODO: Refactor using data of updated product
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error);
+    throw error;
+  }
+};
+
 export const updateProductStock = async (productId, quantity) => {
   try {
     const response = await api.put(`/products/${productId}/stock`, null, {

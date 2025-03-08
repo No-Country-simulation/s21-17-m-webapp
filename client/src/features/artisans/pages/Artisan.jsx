@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Text,
-  Image,
-  Avatar,
-  Spinner,
-  Flex,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Text, Avatar, Spinner, Flex, Button } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getArtisanById } from "../services/artisan";
 import CardProducts from "../components/CardProducts";
@@ -64,26 +56,23 @@ export const Artisan = () => {
       {error && <Text color="red.500">Error: {error}</Text>}
       {artisanDetail && (
         <Box textAlign="center">
-          {artisanDetail.imageUrl ? (
-            <Image
-              src={artisanDetail.imageUrl}
-              alt={artisanDetail.name}
-              borderRadius="full"
-              boxSize="150px"
-              objectFit="cover"
-              mx="auto"
-              mb={4}
+          <Avatar.Root
+            width={128}
+            height={128}
+            size="xl"
+            border="2px solid white"
+            bg={"secondary"}
+            mb={4}
+          >
+            <Avatar.Fallback name={artisanDetail?.name} fontSize={"xl"} />
+            <Avatar.Image
+              src={
+                artisanDetail.imageUrl === "" ? null : artisanDetail.imageUrl
+              }
+              alt="Avatar"
             />
-          ) : (
-            <Avatar
-              name={artisanDetail.name}
-              size="xl"
-              bg="teal.500"
-              color="white"
-              mx="auto"
-              mb={4}
-            />
-          )}
+          </Avatar.Root>
+
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
             {artisanDetail.name}
           </Text>
@@ -98,6 +87,7 @@ export const Artisan = () => {
           </Text>
         </Box>
       )}
+
       {!loading && !error && !artisanDetail && (
         <Text>No se encontró el artesano.</Text>
       )}

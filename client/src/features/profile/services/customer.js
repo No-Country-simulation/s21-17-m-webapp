@@ -12,10 +12,20 @@ export const getCustomersByUserId = async (userId) => {
 
 export const postCustomer = async (customer) => {
   try {
-    const response = await api.post("/customer/save", customer);
+    const response = await api.post("/customer/create", customer);
     return response.data;
   } catch (error) {
     console.error("Error al crear el perfil de cliente:", error);
+    throw error;
+  }
+};
+
+export const updateCustomer = async (customer) => {
+  try {
+    const response = await api.put(`/customer/update`, customer);
+    return response; //TODO: Refactor using data of updated customer
+  } catch (error) {
+    console.error("Error al actualizar el perfil de cliente:", error);
     throw error;
   }
 };

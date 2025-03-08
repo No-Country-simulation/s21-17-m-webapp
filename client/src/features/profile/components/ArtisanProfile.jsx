@@ -92,9 +92,10 @@ export const ArtisanProfile = () => {
       createArtisanStore(newArtisan);
 
       toaster.create({
-        title: "¡Éxito!",
-        description: "El artesano ha sido creado con éxito.",
+        title: "Artesano creado",
+        description: "El artesano ha sido creado.",
         status: "success",
+        type: "success",
         duration: 5000,
         isClosable: true,
       });
@@ -107,6 +108,7 @@ export const ArtisanProfile = () => {
         title: "Error al crear el artesano",
         description: errorMessage,
         status: "error",
+        type: "error",
         duration: 5000,
         isClosable: true,
       });
@@ -130,8 +132,8 @@ export const ArtisanProfile = () => {
         }
       }
 
-      const updatedArtisan = await updateArtisan(data);
-      updateArtisanStore(updatedArtisan);
+      const updatedArtisan = await updateArtisan(data);      
+      if(updatedArtisan) updateArtisanStore(data);
 
       toaster.create({
         title: "Artesano actualizado",
