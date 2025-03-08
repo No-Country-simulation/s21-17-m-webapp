@@ -6,8 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.cdavinci.backend_cdavinci.model.Customer;
+import com.cdavinci.backend_cdavinci.dto.customer.CustomerRequestDTO;
+import com.cdavinci.backend_cdavinci.dto.customer.CustomerResponseDTO;
+import com.cdavinci.backend_cdavinci.dto.customer.CustomerUpdateDTO;
 import com.cdavinci.backend_cdavinci.service.CustomerService;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CustomerController {
             description = "List of registred customers"
     )
     @GetMapping("/getAll")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
@@ -37,7 +38,7 @@ public class CustomerController {
             description = "List of customers created by a user"
     )
     @GetMapping("/userlist/{idUser}")
-    public ResponseEntity<List<Customer>> getCustomersByIdUser(@PathVariable Long idUser){
+    public ResponseEntity<List<CustomerResponseDTO>> getCustomersByIdUser(@PathVariable Long idUser){
         return ResponseEntity.ok(customerService.getCustomersByIdUser(idUser));
     }
 
@@ -46,18 +47,28 @@ public class CustomerController {
             description = "A customer by id"
     )
     @GetMapping("getOne/{idCustomer}")
-    public ResponseEntity<Customer> getCustomById(@PathVariable Long idCustomer) {
+    public ResponseEntity<CustomerResponseDTO> getCustomById(@PathVariable Long idCustomer) {
         return ResponseEntity.ok(customerService.getCustomerById(idCustomer));
     }
 
     @Operation(
-            summary     = "Save a new customer",
-            description = "Body of a new customer is required"
+            summary     = "Create a new Customer",
+            description = "Body of a new CustomerRequestDTO is required"
     )
-    @PostMapping("/save")
-    public ResponseEntity<Customer> saveProduct(@RequestBody Customer customer) {
+    @PostMapping("/create")
+    public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).
-        body(customerService.saveCustomer(customer));
+        body(customerService.createCustomer(customerRequestDTO));
+    }
+
+    @Operation(
+        summary = "Update a Customer",
+        description = "Updates a Customer by editing its fields."
+    )
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateCustomer(@RequestBody CustomerUpdateDTO customerUpdateDTO) {
+        customerService.updateCustomer(customerUpdateDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(

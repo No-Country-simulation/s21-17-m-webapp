@@ -11,6 +11,7 @@ import com.cdavinci.backend_cdavinci.model.BuyProduct;
 import com.cdavinci.backend_cdavinci.model.Category;
 import com.cdavinci.backend_cdavinci.dto.product.ProductRequestDTO;
 import com.cdavinci.backend_cdavinci.dto.product.ProductResponseDTO;
+import com.cdavinci.backend_cdavinci.dto.product.ProductUpdateDTO;
 import com.cdavinci.backend_cdavinci.respository.ArtisanRepository;
 import com.cdavinci.backend_cdavinci.respository.BuyRepository;
 import com.cdavinci.backend_cdavinci.respository.CategoryRepository;
@@ -83,6 +84,23 @@ public class ProductService {
         productRepository.save(product);
     }
     
+    @Transactional
+    public ProductResponseDTO updateProduct(ProductUpdateDTO productUpdateDTO){
+        Long idProduct = productUpdateDTO.getIdProduct();
+        Category category = getCategoryOrThrow(productUpdateDTO.getIdCategory());
+        Product oldProduct = getProductOrThrow(idProduct);
+        oldProduct.setName(productUpdateDTO.getName());
+        oldProduct.setDescription(productUpdateDTO.getDescription());
+        oldProduct.setPrice(productUpdateDTO.getPrice());
+        oldProduct.setStock(productUpdateDTO.getStock());
+        oldProduct.setUrlImage(productUpdateDTO.getUrlImage());
+        oldProduct.setCategory(category);
+        oldProduct.setStockUpdated(LocalDateTime.now());
+        oldProduct.setActive(productUpdateDTO.isActive());
+        Product updatedProduct = productRepository.save(oldProduct);
+        return buildProductResponseDTO(updatedProduct);
+    }
+
     @Transactional
     public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         Long idCategory = productRequestDTO.getIdCategory();
