@@ -97,8 +97,8 @@ public class ProductController {
             summary     = "Delete a Product",
             description = "Dropping, idProduct is required"
     )
-    @DeleteMapping("/delete/{idProducto}")
-    public ResponseEntity<Void> deleteProducto(@PathVariable Long idProduct) {
+    @DeleteMapping("/delete/{idProduct}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long idProduct) {
         productService.deleteProduct(idProduct);
         return ResponseEntity.noContent().build();
     }
