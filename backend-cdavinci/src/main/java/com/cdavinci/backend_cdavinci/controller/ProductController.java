@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cdavinci.backend_cdavinci.dto.product.ProductRequestDTO;
 import com.cdavinci.backend_cdavinci.dto.product.ProductResponseDTO;
+import com.cdavinci.backend_cdavinci.dto.product.ProductUpdateDTO;
 import com.cdavinci.backend_cdavinci.service.ProductService;
 
 import java.util.List;
@@ -86,10 +87,20 @@ public class ProductController {
         summary = "Update product stock",
         description = "Updates the stock of a product by subtracting the specified quantity."
     )
-    @PutMapping("/{idProduct}/stock")
+    @PutMapping("/{idProduct}/quantity")
     public ResponseEntity<Void> updateProductStock(@PathVariable Long idProduct, 
                                                    @RequestParam int quantity) {
         productService.updateProductStock(idProduct, quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(
+        summary = "Update a Product",
+        description = "Updates a Product by editing its fields."
+    )
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateProduct(@RequestBody ProductUpdateDTO productUpdateDTO) {
+        productService.updateProduct(productUpdateDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerResponseDTO {
+public class CustomerUpdateDTO {
     private Long idCustomer;
     private String name;
     private String lastname;
     private String address;
-    private Long userId;
 }
