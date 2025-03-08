@@ -14,9 +14,19 @@ export const CustomerProvider = ({ children }) => {
     setCustomers((prevCustomers) => [...prevCustomers, customerData]);
   };
 
+  const updateCustomer = (updatedCustomer) => {
+    setCustomers((prevCustomers) =>
+      prevCustomers.map((customer) =>
+        customer.idCustomer === updatedCustomer.idCustomer
+          ? updatedCustomer
+          : customer
+      )
+    );
+  };
+
   const deleteCustomer = (id) => {
     setCustomers((prevCustomers) =>
-      prevCustomers.filter((customer) => customer.idProduct !== id)
+      prevCustomers.filter((customer) => customer.idCustomer !== id)
     );
   };
 
@@ -24,7 +34,8 @@ export const CustomerProvider = ({ children }) => {
     <CustomerContext.Provider
       value={{
         customers,
-        addCustomer,        
+        addCustomer,
+        updateCustomer,
         deleteCustomer,
         addCustomers,
       }}

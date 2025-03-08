@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Heading,
   Container,
+  Card,
 } from "@chakra-ui/react";
 import {
   PaginationItems,
@@ -31,6 +32,7 @@ import {
 import { useCustomerContext } from "../store/CustomerContext";
 import { toaster } from "../../../shared/components/toaster";
 import { deleteCustomer } from "../services/customer";
+import { EditCustomer } from "./EditCustomer";
 
 export const CustomerList = ({ title, customers }) => {
   const { deleteCustomer: deleteCustomerStore } = useCustomerContext();
@@ -51,8 +53,8 @@ export const CustomerList = ({ title, customers }) => {
   const handleDelete = async () => {
     if (customerToDelete) {
       try {
-        await deleteCustomer(customerToDelete.idProduct);
-        await deleteCustomerStore(customerToDelete.idProduct);
+        await deleteCustomer(customerToDelete.idCustomer);
+        await deleteCustomerStore(customerToDelete.idCustomer);
         setOpen(false);
       } catch (error) {
         const errorMessage =
@@ -94,38 +96,47 @@ export const CustomerList = ({ title, customers }) => {
           ) : (
             <SimpleGrid columns={{ base: 1 }} spacing={4} gap={4}>
               {currentCustomers.reverse().map((customer) => (
-                <Box
-                  key={customer.idProduct}
+                <Card.Root
+                  key={customer.idCustomer}
                   borderWidth="1px"
-                  borderColor={"secondary"}
-                  bg="primary.50"
+                  borderColor="secondary"
+                  bg="neutral"
                   borderRadius="lg"
                   overflow="hidden"
-                  p={4}
+                  boxShadow="md"
+                  _hover={{
+                    boxShadow: "lg",
+                    transform: "translateY(-4px)",
+                    transition: "all 0.2s",
+                  }}
                 >
-                  <Flex>
-                    <VStack align="flex-start" flex={1} spacing={2} ml={2}>
+                  <Card.Header>
+                    <VStack align="flex-start" spacing={1} mb="2">
                       <Text fontSize="xl" fontWeight="bold">
                         {customer.name} {customer.lastname}
                       </Text>
-                      <Text fontSize="md" color="gray.600">
+                      <Text fontSize="sm" color="gray.500">
                         {customer.address}
                       </Text>
-                      <HStack spacing={2}>
-                        <Button
-                          variant={"solid"}
-                          _hover={{ bg: "secondary.700" }}
-                          bg={"secondary"}
-                          color={"black"}
-                          size="sm"
-                          onClick={() => openDeleteDialog(customer)}
-                        >
-                          Eliminar
-                        </Button>
-                      </HStack>
                     </VStack>
-                  </Flex>
-                </Box>
+                  </Card.Header>
+
+                  <Card.Footer>
+                    <HStack spacing={2}>
+                      <EditCustomer customer={customer} />
+                      <Button
+                        variant="solid"
+                        _hover={{ bg: "red.600" }}
+                        bg="red.500"
+                        color="white"
+                        size="sm"
+                        onClick={() => openDeleteDialog(customer)}
+                      >
+                        Eliminar
+                      </Button>
+                    </HStack>
+                  </Card.Footer>
+                </Card.Root>
               ))}
             </SimpleGrid>
           )}

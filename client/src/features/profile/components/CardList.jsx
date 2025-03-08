@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   Heading,
   Container,
+  Card,
 } from "@chakra-ui/react";
 import {
   PaginationItems,
@@ -33,12 +34,14 @@ import {
 import { useProfileProductsContext } from "../store/ProfileProductsContext";
 import { toaster } from "../../../shared/components/toaster";
 import { deleteProduct } from "../../products/services/products";
+import { useCategoryContext } from "../../products/store/CategoryContext";
 
 export const CardList = ({ title, cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 3;
 
   const { deleteProduct: deleteProductStore } = useProfileProductsContext();
+  const { categories, loading, error } = useCategoryContext();
   const [productToDelete, setProductToDelete] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -96,50 +99,88 @@ export const CardList = ({ title, cards }) => {
           ) : (
             <SimpleGrid columns={{ base: 1 }} spacing={4} gap={4}>
               {currentCards.reverse().map((card) => (
-                <Box
+                <Card.Root
                   key={card.idProduct}
                   borderWidth="1px"
-                  borderColor={"secondary"}
-                  bg="primary.50"
+                  borderColor="secondary"
+                  bg="neutral"
                   borderRadius="lg"
                   overflow="hidden"
-                  p={4}
+                  boxShadow="md"
+                  _hover={{
+                    boxShadow: "lg",
+                    transform: "translateY(-4px)",
+                    transition: "all 0.2s",
+                  }}
                 >
-                  <Flex>
-                    <Box flexShrink={0} ml={4}>
-                      <Image
-                        src={card?.urlImage}
-                        alt={card.title}
-                        boxSize="100px"
-                        objectFit="cover"
-                        borderRadius="md"
-                      />
-                    </Box>
+                  <Card.Header>
+                    <Flex align="center">
+                      <Box flexShrink={0}>
+                        <Image
+                          src={card?.urlImage}
+                          alt={card.name}
+                          boxSize="100px"
+                          objectFit="cover"
+                          borderRadius="md"
+                        />
+                      </Box>
+                      <VStack align="flex-start" spacing={1} ml={4}>
+                        <Text fontSize="xl" fontWeight="bold">
+                          {card.name}
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          {card.description}
+                        </Text>
+                      </VStack>
+                    </Flex>
+                  </Card.Header>
 
-                    <VStack align="flex-start" flex={1} spacing={2} ml={2}>
-                      <Text fontSize="xl" fontWeight="bold">
-                        {card.name}
+                  <Card.Body>
+                    <VStack align="flex-start" spacing={2}>
+                      <Text fontSize="md" color="gray.600">
+                        Precio:{" "}
+                        <Text as="span" fontWeight="bold">
+                          ${card.price}
+                        </Text>
                       </Text>
                       <Text fontSize="md" color="gray.600">
-                        {card.description}
+                        Stock:{" "}
+                        <Text as="span" fontWeight="bold">
+                          {card.stock} unidades
+                        </Text>
                       </Text>
-
-                      <HStack spacing={2}>
-                        <EditProduct product={card} />
-                        <Button
-                          variant={"solid"}
-                          _hover={{ bg: "secondary.700" }}
-                          bg={"secondary"}
-                          color={"black"}
-                          size="sm"
-                          onClick={() => openDeleteDialog(card)}
-                        >
-                          Eliminar
-                        </Button>
-                      </HStack>
+                      <Text fontSize="md" color="gray.600">
+                        Categoría:{" "}
+                        <Text as="span" fontWeight="bold">
+                          {loading
+                            ? "Cargando categoría..."
+                            : error
+                              ? "Error al cargar categoría"
+                              : categories.find(
+                                  (category) =>
+                                    category.idCategory === card.idCategory
+                                )?.name || "Categoría no encontrada"}
+                        </Text>
+                      </Text>
                     </VStack>
-                  </Flex>
-                </Box>
+                  </Card.Body>
+
+                  <Card.Footer>
+                    <HStack spacing={2}>
+                      <EditProduct product={card} />
+                      <Button
+                        variant="solid"
+                        _hover={{ bg: "red.600" }}
+                        bg="red.500"
+                        color="white"
+                        size="sm"
+                        onClick={() => openDeleteDialog(card)}
+                      >
+                        Eliminar
+                      </Button>
+                    </HStack>
+                  </Card.Footer>
+                </Card.Root>
               ))}
             </SimpleGrid>
           )}
