@@ -16,7 +16,7 @@ function CardLittle({ title, description, imageUrl, price, id }) {
     const [favorites, setFavorites] = useState(getFavoritesFromStorage());
     
     const handleAddToCart = () => {
-        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        const currentCart = JSON.parse(localStorage.getItem('cartItem')) || [];
         const product = { id, title, price };
 
         const existingProductIndex = currentCart.findIndex(item => item.id === id);
@@ -26,7 +26,7 @@ function CardLittle({ title, description, imageUrl, price, id }) {
             currentCart[existingProductIndex].quantity += 1;
         }
 
-        localStorage.setItem('cart', JSON.stringify(currentCart));
+        localStorage.setItem('cartItem', JSON.stringify(currentCart));
         alert('Producto agregado al carrito');
     };
 
