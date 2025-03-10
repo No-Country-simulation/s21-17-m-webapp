@@ -24,7 +24,7 @@ function CardLittle({ title, description, imageUrl, price, id }) {
 
   const handleAddToCart = () => {
     const currentCart = JSON.parse(localStorage.getItem("cartItem")) || [];
-    const product = { id, title, price };
+    const product = { id, title, price, imageUrl };
 
     const existingProductIndex = currentCart.findIndex(
       (item) => item.id === id

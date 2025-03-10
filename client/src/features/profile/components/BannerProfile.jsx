@@ -21,7 +21,6 @@ export const BannerProfile = ({ user }) => {
   const [avatarPreview, setAvatarPreview] = useState(user?.avatar);
 
   const onSubmit = (data) => {
-    console.log("Datos guardados:", data);
     setIsEditing(false);
   };
 

@@ -63,7 +63,7 @@ export const Profile = () => {
     }
     getCustomers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [artisan]);
+  }, [user]);
 
   return (
     <div>
