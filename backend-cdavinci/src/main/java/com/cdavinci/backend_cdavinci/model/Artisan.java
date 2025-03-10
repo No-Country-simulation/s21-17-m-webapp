@@ -1,6 +1,7 @@
 package com.cdavinci.backend_cdavinci.model;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +41,7 @@ public class Artisan {
     private User user;
 
     @OneToMany(mappedBy = "artisan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Product> products;
 
 }
