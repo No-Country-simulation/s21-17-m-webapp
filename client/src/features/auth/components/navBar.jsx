@@ -58,12 +58,14 @@ function NavBar() {
         justify="space-between"
       >
         <Flex gap="4" justify="flex-start">
-          <Image
-            src={logo}
-            alt="logo cDavinci"
-            maxHeight={"40px"}
-            marginInline={"30px"}
-          />
+          <Link href="/">
+            <Image
+              src={logo}
+              alt="logo cDavinci"
+              maxHeight={"40px"}
+              marginInline={"30px"}
+            />
+          </Link>
         </Flex>
         <Flex direction="row" gap="6" justify="flex-end">
           <Link href="/artisans">Artesanos</Link>
@@ -75,7 +77,7 @@ function NavBar() {
             <>
               <Link href="/cart">Carrito</Link>
               <Link href="/favorites">Mis favoritos</Link>
-              <Link href="/porfile">Perfil</Link>
+              <Link href="/profile">Perfil</Link>
             </>
           )}
           {userType === "artisan" && (
