@@ -74,12 +74,14 @@ function NavBar() {
           {userType === "common" && (
             <>
               <Link href="/cart">Carrito</Link>
-              <Link to="">Mis favoritos</Link>
+              <Link href="/favorites">Mis favoritos</Link>
+              <Link href="/porfile">Perfil</Link>
             </>
           )}
           {userType === "artisan" && (
             <>
-              <Link to="">Mis ventas</Link>
+              <Link href="">Mis ventas</Link>
+              <Link href="/profile">Perfil</Link>
             </>
           )}
           {userType ? (
@@ -124,12 +126,14 @@ function NavBar() {
           {userType === "common" && (
             <>
               <Link href="/cart">Carrito</Link>
-              <Link to="">Mis favoritos</Link>
+              <Link href="/favorites">Mis favoritos</Link>
+              <Link href="/profile">Perfil</Link>
             </>
           )}
           {userType === "artisan" && (
             <>
-              <Link to="">Mis ventas</Link>
+              <Link href="">Mis ventas</Link>
+              <Link href="/profile">Perfil</Link>
             </>
           )}
           {userType ? (
