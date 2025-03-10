@@ -30,14 +30,14 @@ function Favorites() {
     };
 
     return (
-        <Box p="4" gap="10" alignItems={"center"} textAlign={"center"}>
+        <Box p="4" gap="10" marginLeft={("10", "15", "30")} alignItems={"center"} textAlign={"center"}>
             <Text fontSize="2xl" fontWeight="bold">Tus favoritos</Text>
             {favorites.length === 0 ? (
                 <Text color="secondary" textAlign="center" mt="4">
                     No se encontraron productos.
                 </Text>
             ) : (
-                <Box display="flex" flexWrap="wrap" justifyContent="space-between" gap="10">
+                <Box display="flex" flexWrap="wrap" justifyContent="space-around" gap="10">
                     {favorites.reverse().map((product) => (
                         <CardLittle
                             key={product.id}

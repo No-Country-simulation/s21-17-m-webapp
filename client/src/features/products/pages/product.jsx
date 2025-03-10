@@ -15,7 +15,7 @@ function Product() {
     } 
 
     return (
-        <Box padding="5" color="primary" alignItems={"center"}>
+        <Box p="5" color="primary" textAlign={"center"} alignItems={"center"}>
             <Image src={selectedProduct.imageUrl} alt={selectedProduct.title} />
             <Text fontSize="2xl" fontWeight="bold">{selectedProduct.title}</Text>
             <Text fontSize="lg">{selectedProduct.description}</Text>

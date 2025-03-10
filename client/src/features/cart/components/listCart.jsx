@@ -5,18 +5,35 @@ import FormCart from "./formCart";
 
 function ListCart() {
   const getItemsLocalStorage = () => {
-    const storedCart = localStorage.getItem("cartItem");
+    const storedCart = localStorage.getItem("cartItem"); 
     return storedCart ? JSON.parse(storedCart) : [];
   };
 
-  const [cartItems, setCartItems] = useState(getItemsLocalStorage());
+  const [cartItem, setCartItem] = useState(getItemsLocalStorage());
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
+    localStorage.setItem("cartItem", JSON.stringify(cartItem)); 
+  }, [cartItem]);
 
   const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
+    setCartItem(cartItem.filter(item => item.id !== id));
+  };
+
+  const addCantItem = (id) => {
+    setCartItem(cartItem.map(item => 
+      item.id === id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
+    ));
+  };
+
+  const removeCantItem = (id) => {
+    setCartItem(cartItem.map(item => 
+      item.id === id 
+        ? { 
+            ...item, 
+            quantity: item.quantity > 1 ? item.quantity - 1 : undefined 
+          }
+        : item
+    ).filter(item => item.quantity !== undefined)); 
   };
 
   const clearCart = () => {
@@ -27,13 +44,13 @@ function ListCart() {
   const handleShowForm = () => {
     setShowForm(true);
   };
-  const handleCloseForm= () => {
+  const handleCloseForm = () => {
     setShowForm(false);
-  }
+  };
 
   const handleConfirmCompra = (formData) => {
     const orderData = {
-      cart: cartItems,
+      cart: cartItem,
       address: formData.address
     };
     sendOrder(orderData);
@@ -52,25 +69,9 @@ function ListCart() {
   };
 
   return (
-    <Box
-      color="accent"
-      p="4"
-      alignItems="center"
-      width="100%" 
-      minHeight="70vh" 
-      display="flex"
-      justifyContent="center"
-    >
-      <Box
-        bg="neutral.300"
-        p="6"
-        borderRadius="md"
-        boxShadow="lg"
-        width={{ base: "90%", sm: "700px" }} 
-        maxWidth="1000px"
-      >
+    <Box bg="neutral.300" alignItems={"center"} textAlign={"center"}>
         <Flex direction="column" gap="4">
-          <Flex justify="space-between" align="center" marginInline="30px">
+          <Flex justify="space-around" align="center" marginInline="30px">
             <Text fontSize="2xl" color="secondary" fontWeight="bold">
               Tu Carrito de Artesanías
             </Text>
@@ -83,9 +84,9 @@ function ListCart() {
           </Flex>
 
           {/* Lista de artesanías */}
-          <Flex direction="column" gap="4">
-            {cartItems.length > 0 ? (
-              cartItems.map((item) => (
+          <Flex  marginInline={("10px","50px","100px")}direction="column" gap="4">
+            {cartItem.length > 0 ? (
+              cartItem.map((item) => (
                 <Flex
                   key={item.id}
                   justify="space-between"
@@ -105,13 +106,31 @@ function ListCart() {
                   <Text flex="1" ml="3" fontWeight="semibold">
                     {item.name}
                   </Text>
-                  <Text fontWeight="bold">${item.price}</Text>
                   <IconButton
-                    aria-label="Eliminar"
-                    icon={<FaTrash />}
-                    onClick={() => removeItem(item.id)}
-                    colorScheme="red"
+                    aria-label="+"
+                    icon={<FaShoppingCart />}
+                    onClick={() => addCantItem(item.id)} 
+                    bg={"primary"}
                     size="sm"
+                    margin={"2px"}
+                  />
+                  <Text fontWeight="bold">${item.price}</Text>
+                  <Text>Cantidad: {item.quantity || 1}</Text> 
+                  <IconButton
+                    aria-label="-"
+                    icon={<FaTrash />}
+                    onClick={() => removeCantItem(item.id)} 
+                    bg={"secondary"}
+                    size="sm"
+                    margin={"2px"}
+                  />
+                  <IconButton
+                    aria-label="Remove"
+                    icon={<FaTrash />}
+                    onClick={() => removeItem(item.id)} 
+                    bg={"red.500"}
+                    size="sm"
+                    margin={"2px"}
                   />
                 </Flex>
               ))
@@ -120,8 +139,7 @@ function ListCart() {
             )}
           </Flex>
 
-          {/* Botones de acciones */}
-          <Group mt="4" justify="space-between">
+          <Group mt="4" justify="space-around" marginInline={("10px","50px","100px")}>
             <Button bg="primary" color="accent" onClick={clearCart}>
               Vaciar Carrito
             </Button>
@@ -132,7 +150,7 @@ function ListCart() {
         </Flex>
         {showForm && <FormCart onConfirmCompra={handleConfirmCompra} />}
       </Box>
-    </Box>
+
   );
 }
 
