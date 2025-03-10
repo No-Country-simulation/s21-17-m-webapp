@@ -1,4 +1,4 @@
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import CardArtisan from "../../../shared/components/cardArtisan";
 import { useEffect, useState } from "react";
 import { getArtisans } from "../services/artisan";
@@ -29,22 +29,27 @@ export const Artisans = () => {
       </Text>
       {loading && <Text>Cargando...</Text>}
       {error && <Text color="red.400">Error: {error.message}</Text>}
-      {!loading && !error && artisans.length === 0 && (
+      {!loading && !error && artisans?.length === 0 && (
         <Text>No hay artesanos disponibles.</Text>
       )}
       {artisans && (
-        <Box>
-          <Grid
-            templateColumns={{
-              base: "1fr",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(3, 1fr)",
-            }}
-            gap={6}
-          >
-            {artisans.map((artisan) => (
+        <Flex
+          flexWrap="wrap"
+          justifyContent="center"
+          alignItems="center"
+          gap={6}
+          width="100%"
+        >
+          {artisans.map((artisan) => (
+            <Box
+              key={artisan.id}
+              width={{ base: "100%", md: "45%", lg: "30%" }}
+              maxWidth="300px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
               <CardArtisan
-                key={artisan.id}
                 id={artisan.id}
                 name={artisan.name}
                 aboutMe={artisan.aboutMe}
@@ -52,9 +57,9 @@ export const Artisans = () => {
                 locality={artisan.locality}
                 especiality={artisan.especiality}
               />
-            ))}
-          </Grid>
-        </Box>
+            </Box>
+          ))}
+        </Flex>
       )}
     </Box>
   );
