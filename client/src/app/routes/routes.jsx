@@ -9,10 +9,11 @@ import Product from "../../features/products/pages/product";
 import { Artisan } from "../../features/artisans/pages/Artisan";
 import { Profile } from "../../features/profile/pages/Profile";
 import PrivateRoute from "../providers/PrivateRoute";
+import Favorites from "../../features/products/pages/favorites"
 
 const AppRoutes = () => {
   return (
-    <Routes>
+    <Routes>  
       <Route path="/" element={<Home />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/aboutUs" element={<AboutUs />} />
@@ -20,6 +21,7 @@ const AppRoutes = () => {
       <Route path="/artisans" element={<Artisans />} />
       <Route path="/artisan/:id" element={<Artisan />} />
       <Route path="/product/:id" element={<Product />} />
+      <Route path="/favorites" element ={<Favorites />} />
       {/* Rutas privadas */}
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />

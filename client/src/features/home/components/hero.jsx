@@ -21,7 +21,7 @@ function Hero(){
                 <Text marginInline="100px" fontSize="8xl" fontWeight="bolder" color="secondary" textShadow="8px 10px 10px rgb(14, 3, 0)">
                     cDavinci
                 </Text>
-                <Text marginInline="100px" fontSize="5xl" fontWeight="bolder" color="secondary" textShadow="5px 8px 8px rgb(14, 3, 0)">
+                <Text marginInline="100px" fontSize={["2xl", "4xl", "5xl"]} fontWeight="bolder" color="secondary" textShadow="5px 8px 8px rgb(14, 3, 0)">
                     Artesanias del Artista a tus manos
                 </Text>
             </Flex>
