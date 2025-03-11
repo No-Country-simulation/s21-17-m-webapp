@@ -34,7 +34,7 @@ import { toaster } from "../../../shared/components/toaster";
 import { deleteCustomer } from "../services/customer";
 import { EditCustomer } from "./EditCustomer";
 
-export const CustomerList = ({ title, customers }) => {
+export const CustomerList = ({ title, customers, setCustomerSelected }) => {
   const { deleteCustomer: deleteCustomerStore } = useCustomerContext();
   const [currentPage, setCurrentPage] = useState(1);
   const customersPerPage = 3;
@@ -133,6 +133,16 @@ export const CustomerList = ({ title, customers }) => {
                         onClick={() => openDeleteDialog(customer)}
                       >
                         Eliminar
+                      </Button>
+                      <Button
+                        variant="solid"
+                        _hover={{ bg: "green.600" }}
+                        bg="green.500"
+                        color="white"
+                        size="sm"
+                        onClick={() => setCustomerSelected(customer.idCustomer)}
+                      >
+                        Ver compras
                       </Button>
                     </HStack>
                   </Card.Footer>

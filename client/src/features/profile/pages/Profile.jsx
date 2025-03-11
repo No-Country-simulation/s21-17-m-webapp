@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../../app/providers/AuthProvider";
 import { AddProduct } from "../components/AddProduct";
 import { ArtisanProfile } from "../components/ArtisanProfile";
@@ -8,15 +8,20 @@ import { useProfileProductsContext } from "../store/ProfileProductsContext";
 import { getArtisanByUserId } from "../../artisans/services/artisan";
 import { getProductsByArtisan } from "../../products/services/products";
 import { useCustomerContext } from "../store/CustomerContext";
-import { getCustomersByUserId } from "../services/customer";
+import {
+  getBuysByCustomerId,
+  getCustomersByUserId,
+} from "../services/customer";
 import { CustomerList } from "../components/CustomerList";
 import { AddCustomer } from "../components/AddCustomer";
+import { BuyList } from "../components/BuyList";
 
 export const Profile = () => {
   const { user, userType } = useAuth();
   const { products, addProducts } = useProfileProductsContext();
   const { artisan, createArtisan } = useArtisanContext();
   const { customers, addCustomers } = useCustomerContext();
+  const [customerSelected, setCustomerSelected] = useState(null);
 
   useEffect(() => {
     async function getArtisan() {
@@ -80,8 +85,13 @@ export const Profile = () => {
       )}
       {userType === "common" && (
         <>
-          <CustomerList title="Perfiles de envió" customers={customers} />
+          <CustomerList
+            title="Perfiles de envió"
+            customers={customers}
+            setCustomerSelected={setCustomerSelected}
+          />
           <AddCustomer />
+          <BuyList customerSelected={customerSelected} />
         </>
       )}
     </div>

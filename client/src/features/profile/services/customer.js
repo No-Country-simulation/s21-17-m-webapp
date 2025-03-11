@@ -39,3 +39,13 @@ export const deleteCustomer = async (customerId) => {
     throw error;
   }
 };
+
+export const getBuysByCustomerId = async (customerId) => {
+  try {
+    const response = await api.get(`/buy/listmadeby/${customerId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las compras del cliente:", error);
+    throw error;
+  }
+};
