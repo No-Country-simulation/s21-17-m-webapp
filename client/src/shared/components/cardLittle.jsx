@@ -97,7 +97,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
           )}
         </IconButton>
       )}
-      <Image src={imageUrl} alt={title} />
+      <Image src={imageUrl} alt={title} objectFit="cover" w="full" h="200px" />
       <Card.Body gap="2">
         <Card.Title>{title}</Card.Title>
         <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
