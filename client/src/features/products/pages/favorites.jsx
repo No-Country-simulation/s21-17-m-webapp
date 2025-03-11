@@ -45,7 +45,8 @@ function Favorites() {
                             description={product.description}
                             imageUrl={product.imageUrl}
                             price={product.price}
-                            id={product.id}
+                            stock={product.stock}
+                            id={product.id}                            
                             onFavorite={() => handleFavorite(product)} 
                         />
                     ))}
