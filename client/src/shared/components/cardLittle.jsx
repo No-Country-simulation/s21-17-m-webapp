@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { TiHeartFullOutline, TiHeartOutline } from "react-icons/ti";
 import { toaster } from "./toaster";
 import { useFavoritesContext } from "../../features/products/store/FavoriteContext";
+import { useAuth } from "../../app/providers/AuthProvider";
 
 function CardLittle({ title, description, stock, imageUrl, price, id }) {
+  const { user, userType } = useAuth();
   const navigate = useNavigate();
   const { setProduct } = useProduct();
   const { addFavorite, deleteFavorite, isFavorite } = useFavoritesContext();
@@ -82,27 +84,29 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
       opacity={isStockAvailable ? 1 : 0.5}
       _disabled={!isStockAvailable}
     >
-      <IconButton
-        aria-label="Añadir a favoritos"
-        variant="ghost"
-        size="lg"
-        borderRadius="full"
-        position="absolute"
-        top="10px"
-        right="10px"
-        zIndex="1"
-        onClick={handleFavorite}
-        _hover={{
-          bg: isFavorite(id) ? "orange.100" : "green.100",
-        }}
-        disabled={!isStockAvailable}
-      >
-        {isFavorite(id) ? (
-          <TiHeartFullOutline size="24" color="#FF6A13" />
-        ) : (
-          <TiHeartOutline size="24" color="#48BB78" />
-        )}
-      </IconButton>
+      {user && userType === "common" && (
+        <IconButton
+          aria-label="Añadir a favoritos"
+          variant="ghost"
+          size="lg"
+          borderRadius="full"
+          position="absolute"
+          top="10px"
+          right="10px"
+          zIndex="1"
+          onClick={handleFavorite}
+          _hover={{
+            bg: isFavorite(id) ? "orange.100" : "green.100",
+          }}
+          disabled={!isStockAvailable}
+        >
+          {isFavorite(id) ? (
+            <TiHeartFullOutline size="24" color="#FF6A13" />
+          ) : (
+            <TiHeartOutline size="24" color="#48BB78" />
+          )}
+        </IconButton>
+      )}
       <Image src={imageUrl} alt={title} />
       <Card.Body gap="2">
         <Card.Title>{title}</Card.Title>
@@ -114,14 +118,16 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
         </Text>
       </Card.Body>
       <Card.Footer gap="2">
-        <Button
-          color="neutral"
-          bg="primary"
-          onClick={handleAddToCart}
-          disabled={!isStockAvailable}
-        >
-          Agregar al carrito
-        </Button>
+        {user && userType === "common" && (
+          <Button
+            color="neutral"
+            bg="primary"
+            onClick={handleAddToCart}
+            disabled={!isStockAvailable}
+          >
+            Agregar al carrito
+          </Button>
+        )}
         <Button color="neutral" bg="secondary" onClick={handelViewDetails}>
           Más información
         </Button>
