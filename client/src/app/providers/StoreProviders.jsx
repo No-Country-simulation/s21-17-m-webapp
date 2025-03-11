@@ -5,19 +5,22 @@ import { ProductProvider } from "../../features/products/store/ProductContext";
 import { ArtisanProvider } from "../../features/profile/store/ArtisanContext";
 import { CustomerProvider } from "../../features/profile/store/CustomerContext";
 import { FavoritesProvider } from "../../features/products/store/FavoriteContext";
+import { CartProvider } from "../../features/cart/store/CartContext";
 
 const StoreProviders = ({ children }) => {
   return (
     <>
       <CategoryProvider>
         <FavoritesProvider>
-          <ArtisanProvider>
-            <CustomerProvider>
-              <ProductProvider>
-                <ProfileProductsProvider>{children}</ProfileProductsProvider>
-              </ProductProvider>
-            </CustomerProvider>
-          </ArtisanProvider>
+          <CartProvider>
+            <ArtisanProvider>
+              <CustomerProvider>
+                <ProductProvider>
+                  <ProfileProductsProvider>{children}</ProfileProductsProvider>
+                </ProductProvider>
+              </CustomerProvider>
+            </ArtisanProvider>
+          </CartProvider>
         </FavoritesProvider>
       </CategoryProvider>
     </>

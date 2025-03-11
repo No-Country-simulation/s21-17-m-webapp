@@ -7,12 +7,14 @@ import { TiHeartFullOutline, TiHeartOutline } from "react-icons/ti";
 import { toaster } from "./toaster";
 import { useFavoritesContext } from "../../features/products/store/FavoriteContext";
 import { useAuth } from "../../app/providers/AuthProvider";
+import { useCartContext } from "../../features/cart/store/CartContext";
 
 function CardLittle({ title, description, stock, imageUrl, price, id }) {
   const { user, userType } = useAuth();
   const navigate = useNavigate();
   const { setProduct } = useProduct();
   const { addFavorite, deleteFavorite, isFavorite } = useFavoritesContext();
+  const { addToCart } = useCartContext();
 
   const [isStockAvailable, setIsStockAvailable] = useState(stock > 0);
 
@@ -21,19 +23,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
   }, [stock]);
 
   const handleAddToCart = () => {
-    const currentCart = JSON.parse(localStorage.getItem("cartItem")) || [];
-    const product = { id, title, price, imageUrl, stock };
-
-    const existingProductIndex = currentCart.findIndex(
-      (item) => item.id === id
-    );
-    if (existingProductIndex === -1) {
-      currentCart.push(product);
-    } else {
-      currentCart[existingProductIndex].quantity += 1;
-    }
-
-    localStorage.setItem("cartItem", JSON.stringify(currentCart));
+    addToCart({ id, title, description, imageUrl, price, stock });
     toaster.create(
       {
         title: "Producto agregado al carrito",

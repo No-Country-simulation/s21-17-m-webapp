@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Flex,
@@ -6,83 +6,41 @@ import {
   Button,
   IconButton,
   Image,
-  Group,
+  VStack,
+  HStack,
   Badge,
 } from "@chakra-ui/react";
 import { FaMinus, FaPlus, FaShoppingCart, FaTrash } from "react-icons/fa";
 import FormCart from "./formCart";
-import api from "../../../app/config/api";
 import { toaster } from "../../../shared/components/toaster";
 import { useAuth } from "../../../app/providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import api from "../../../app/config/api";
+import { useCartContext } from "../store/CartContext";
 
 function ListCart() {
-  const { user, userType } = useAuth();
-  const navigate = useNavigate(); 
-  const getItemsLocalStorage = () => {
-    const storedCart = localStorage.getItem("cartItem");
-    return storedCart ? JSON.parse(storedCart) : [];
-  };
-
-  const [cartItem, setCartItem] = useState(getItemsLocalStorage());
-
-  useEffect(() => {
-    localStorage.setItem("cartItem", JSON.stringify(cartItem));
-  }, [cartItem]);
-
-  const removeItem = (id) => {
-    setCartItem(cartItem.filter((item) => item.id !== id));
-  };
-
-  const addCantItem = (id) => {
-    setCartItem(
-      cartItem.map((item) =>
-        item.id === id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
-      )
-    );
-  };
-
-  const removeCantItem = (id) => {
-    setCartItem(
-      cartItem
-        .map((item) =>
-          item.id === id
-            ? {
-              ...item,
-              quantity: item.quantity > 1 ? item.quantity - 1 : undefined,
-            }
-            : item
-        )
-        .filter((item) => item.quantity !== undefined)
-    );
-  };
-
-  const clearCart = () => {
-    setCartItem([]);
-  };
+  const { userType } = useAuth();
+  const {
+    cart,
+    removeFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    clearCart,
+    getTotalPrice,
+  } = useCartContext();
 
   const [showForm, setShowForm] = useState(false);
-  const handleShowForm = () => {
-    setShowForm(true);
-  };
-  const handleCloseForm = () => {
-    setShowForm(false);
-  };
+  const handleShowForm = () => setShowForm(true);
+  const handleCloseForm = () => setShowForm(false);
 
   const handleConfirmCompra = (formData) => {
     if (!formData.customer) return;
     const order = {
-      purchasedProducts: cartItem.map((item) => ({
+      purchasedProducts: cart.map((item) => ({
         idProduct: item.id,
-        quantity: item.quantity || 1,
+        quantity: item.quantity,
       })),
       idCustomer: formData.customer,
-      amount: parseFloat(
-        cartItem.reduce(
-          (acc, item) => acc + item.price * (item.quantity || 1),
-          0
-        )
-      ).toFixed(2),
+      amount: parseFloat(getTotalPrice()).toFixed(2),
     };
 
     sendOrder(order);
@@ -112,107 +70,141 @@ function ListCart() {
   };
 
   return (
-    <Box bg="neutral.300" alignItems={"center"} textAlign={"center"}>
-      <Flex direction="column" gap="4">
-        <Flex justify="space-around" align="center" marginInline="30px">
-          <Text fontSize="2xl" color="secondary" fontWeight="bold">
-            Tu Carrito de Artesanías
-          </Text>
-          <IconButton
-            aria-label="Ver carrito"
-            onClick={() => handleCloseForm()}
-            bg="secondary"
-          >
-            <FaShoppingCart />
-          </IconButton>
-        </Flex>
-
-        {/* Lista de artesanías */}
-        <Flex
-          marginInline={("10px", "50px", "100px")}
-          direction="column"
-          gap="4"
+    <Box bg="neutral" p={6} borderRadius="md" boxShadow="lg">
+      <Flex
+        justify="space-between"
+        align="center"
+        wrap="wrap"
+        mb={4}
+        p={2}
+        borderBottom="1px solid"
+        borderColor="gray.300"
+      >
+        <Text fontSize="2xl" color="secondary" fontWeight="bold">
+          Tu Carrito de Artesanías
+        </Text>
+        <IconButton
+          aria-label="Ver carrito"
+          onClick={handleCloseForm}
+          bg="secondary"
+          color="white"
+          _hover={{ bg: "secondary.600" }}
         >
-          {cartItem.length > 0 ? (
-            cartItem.map((item) => (
-              <Flex
-                key={item.id}
-                justify="space-between"
-                align="center"
-                borderBottom="1px solid"
-                borderColor="gray.300"
-                p="2"
-                mb="3"
-              >
-                <Image
-                  src={item.imageUrl}
-                  alt={item.title}
-                  boxSize="50px"
-                  borderRadius="md"
-                  objectFit="cover"
-                />
-                <Text flex="1" ml="3" fontWeight="semibold">
-                  {item.title}
-                </Text>
+          <FaShoppingCart />
+        </IconButton>
+      </Flex>
+
+      {/* Lista de productos */}
+      <VStack spacing={4} align="stretch">
+        {cart.length > 0 ? (
+          cart.map((item) => (
+            <Flex
+              key={item.id}
+              justify="space-between"
+              align="center"
+              p={3}
+              borderRadius="md"
+              bg="neutral.200"
+              boxShadow="sm"
+              wrap="wrap"
+            >
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                boxSize="60px"
+                borderRadius="md"
+                objectFit="cover"
+              />
+              <Text flex="1" ml="3" fontWeight="semibold">
+                {item.title}
+              </Text>
+
+              <HStack>
                 <IconButton
-                  aria-label="+"
-                  onClick={() => addCantItem(item.id)}
-                  bg={"primary"}
+                  aria-label="Disminuir cantidad"
+                  onClick={() => decreaseQuantity(item.id)}
+                  bg="secondary"
+                  color="white"
                   size="sm"
-                  margin={"2px"}
-                >
-                  <FaPlus />
-                </IconButton>
-                <Text fontWeight="bold">${item.price}</Text>
-                <Text>Cant: {item.quantity || 1}</Text>
-                <IconButton
-                  aria-label="-"
-                  onClick={() => removeCantItem(item.id)}
-                  bg={"secondary"}
-                  size="sm"
-                  margin={"2px"}
+                  _hover={{ bg: "secondary.600" }}
                 >
                   <FaMinus />
                 </IconButton>
-                <IconButton
-                  aria-label="Remove"
-                  onClick={() => removeItem(item.id)}
-                  bg={"red.500"}
-                  size="sm"
-                  margin={"2px"}
-                >
-                  <FaTrash />
-                </IconButton>
-              </Flex>
-            ))
-          ) : (
-            <Text color="secondary">No hay artesanías en el carrito.</Text>
-          )}
-        </Flex>
 
-        <Group
-          mt="4"
-          justify="space-around"
-          marginInline={("10px", "50px", "100px")}
+                <Text fontWeight="bold">{item.quantity}</Text>
+
+                <IconButton
+                  aria-label="Aumentar cantidad"
+                  onClick={() => increaseQuantity(item.id)}
+                  bg="primary"
+                  color="white"
+                  size="sm"
+                  _hover={{ bg: "primary.600" }}
+                >
+                  <FaPlus />
+                </IconButton>
+              </HStack>
+
+              <Text fontWeight="bold" color="primary">
+                ${item.price}
+              </Text>
+
+              <IconButton
+                aria-label="Eliminar producto"
+                onClick={() => removeFromCart(item.id)}
+                bg="red.500"
+                color="white"
+                size="sm"
+                _hover={{ bg: "red.600" }}
+              >
+                <FaTrash />
+              </IconButton>
+            </Flex>
+          ))
+        ) : (
+          <Text color="secondary" textAlign="center">
+            No hay artesanías en el carrito.
+          </Text>
+        )}
+      </VStack>
+
+      {/* Total */}
+      <Text fontSize="xl" fontWeight="bold" textAlign="center">
+        Total: ${getTotalPrice()}
+      </Text>
+
+      <Flex mt={4} wrap="wrap" justify="center" gap={4} mb={4}>
+        <Button
+          bg="primary"
+          color="white"
+          _hover={{ bg: "primary.600" }}
+          onClick={clearCart}
         >
-          <Button bg="primary" color="accent" onClick={clearCart}>
-            Vaciar Carrito
-          </Button>
-          {userType === "common" ? (
-            <Button bg="secondary" onClick={handleShowForm}>
+          Vaciar Carrito
+        </Button>
+
+        {userType === "common" ? (
+          cart.length > 0 ? (
+            <Button
+              bg="secondary"
+              color="white"
+              _hover={{ bg: "secondary.600" }}
+              onClick={handleShowForm}
+            >
               Dirección de Envío
             </Button>
           ) : (
-
-            <Badge
-              bg="secondary"
-              color="accent"
-            >
-              Inicia sesión como comprador
+            <Badge bg="secondary" color="white" p={2} borderRadius="md">
+              No tienes productos en el carrito
             </Badge>
-          )}
-        </Group>
+          )
+        ) : (
+          <Badge bg="secondary" color="white" p={2} borderRadius="md">
+            Inicia sesión como comprador
+          </Badge>
+        )}
       </Flex>
+
       {showForm && <FormCart onConfirmCompra={handleConfirmCompra} />}
     </Box>
   );
