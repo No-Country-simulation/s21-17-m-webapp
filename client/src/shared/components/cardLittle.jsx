@@ -69,7 +69,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
 
   return (
     <Card.Root
-      maxW="sm"
+      w="sm"
       position="relative"
       opacity={isStockAvailable ? 1 : 0.5}
       _disabled={!isStockAvailable}
