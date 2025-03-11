@@ -14,9 +14,11 @@ import FormCart from "./formCart";
 import api from "../../../app/config/api";
 import { toaster } from "../../../shared/components/toaster";
 import { useAuth } from "../../../app/providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 function ListCart() {
   const { user, userType } = useAuth();
+  const navigate = useNavigate(); 
   const getItemsLocalStorage = () => {
     const storedCart = localStorage.getItem("cartItem");
     return storedCart ? JSON.parse(storedCart) : [];
@@ -46,9 +48,9 @@ function ListCart() {
         .map((item) =>
           item.id === id
             ? {
-                ...item,
-                quantity: item.quantity > 1 ? item.quantity - 1 : undefined,
-              }
+              ...item,
+              quantity: item.quantity > 1 ? item.quantity - 1 : undefined,
+            }
             : item
         )
         .filter((item) => item.quantity !== undefined)
@@ -87,7 +89,7 @@ function ListCart() {
   };
 
   const sendOrder = async (orderData) => {
-    try {      
+    try {
       await api.post("/buy/create", orderData);
       toaster.create({
         title: "Compra realizada",
@@ -96,6 +98,7 @@ function ListCart() {
         duration: 3000,
         isClosable: true,
       });
+      clearCart();
     } catch (error) {
       console.error("Error al enviar la orden:", error);
       toaster.create({
@@ -161,7 +164,7 @@ function ListCart() {
                   <FaPlus />
                 </IconButton>
                 <Text fontWeight="bold">${item.price}</Text>
-                <Text>Cantidad: {item.quantity || 1}</Text>
+                <Text>Cant: {item.quantity || 1}</Text>
                 <IconButton
                   aria-label="-"
                   onClick={() => removeCantItem(item.id)}
@@ -203,9 +206,9 @@ function ListCart() {
 
             <Badge
               bg="secondary"
-              color="accent"               
+              color="accent"
             >
-              Inicia sesión como comprador              
+              Inicia sesión como comprador
             </Badge>
           )}
         </Group>
