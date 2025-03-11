@@ -9,13 +9,12 @@ import { getArtisanByUserId } from "../../artisans/services/artisan";
 import { getProductsByArtisan } from "../../products/services/products";
 import { useCustomerContext } from "../store/CustomerContext";
 import {
-  getBuysByCustomerId,
   getCustomersByUserId,
 } from "../services/customer";
 import { CustomerList } from "../components/CustomerList";
 import { AddCustomer } from "../components/AddCustomer";
 import { BuyList } from "../components/BuyList";
-import { CardConteinerPlus } from "../../home/components/cardConteinerPlus";
+
 
 export const Profile = () => {
   const { user, userType } = useAuth();
@@ -92,8 +91,7 @@ export const Profile = () => {
             setCustomerSelected={setCustomerSelected}
           />
           <AddCustomer />
-          <BuyList customerSelected={customerSelected} />
-          <CardConteinerPlus />
+          <BuyList customerSelected={customerSelected} />          
         </>
       )}
     </div>

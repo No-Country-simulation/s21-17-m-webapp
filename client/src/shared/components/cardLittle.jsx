@@ -23,7 +23,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
     const [favorites, setFavorites] = useState(getFavoritesFromStorage());
     const [isStockAvailable, setIsStockAvailable] = useState(stock > 0);
 
-    useEffect(() => {
+    useEffect(() => {        
         setIsStockAvailable(stock > 0);
     }, [stock]);
 
@@ -99,7 +99,8 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
         <Card.Root
             maxW="sm"
             position="relative"
-            opacity={isStockAvailable ? 1 : 0.5}
+            opacity={isStockAvailable ? 1 : 0.5}            
+            _disabled={isStockAvailable ? false : true}
         >
             <IconButton
                 aria-label="Añadir a favoritos"
@@ -116,6 +117,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
                 _hover={{
                     bg: isFavorite ? "orange.100" : "green.100",
                 }}
+                disabled={!isStockAvailable}
             >
                 {isFavorite ? (
                     <TiHeartFullOutline size="24" color="#FF6A13" />
@@ -136,10 +138,10 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
                 </Text>
             </Card.Body>
             <Card.Footer gap="2">
-                <Button color="neutral" bg="primary" onClick={handleAddToCart} isDisabled={!isStockAvailable} >
+                <Button color="neutral" bg="primary" onClick={handleAddToCart} disabled={!isStockAvailable} >
                     Agregar al carrito
                 </Button>
-                <Button color="neutral" bg="secondary" onClick={handelViewDetails}>
+                <Button color="neutral" bg="secondary" onClick={handelViewDetails} >
                     Más información
                 </Button>
             </Card.Footer>

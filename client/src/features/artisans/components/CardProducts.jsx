@@ -51,6 +51,7 @@ function CardProducts({ artisanId }) {
               description={product.description}
               imageUrl={product.urlImage}
               price={product.price}
+              stock={product.stock}
               id={product.idProduct}
             />
           ))}
