@@ -56,7 +56,7 @@ export const deleteProduct = async (productId) => {
 //detalle de compra
 export const getProductsByBuyId = async (idBuy) => {
   try {
-    const response = await api.get(`/api/products/purchasedsByBuyId/${idBuy}`); 
+    const response = await api.get(`/products/purchasedsByBuyId/${idBuy}`); 
     return response.data; 
   } catch (error) {
     console.error("Error al obtener los productos de la compra:", error);
