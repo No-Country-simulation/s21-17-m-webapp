@@ -29,10 +29,10 @@ function ArtisanConteiner() {
     fetchData();
   }, []);
   return (
-    <Box p="4" gap="10" alignItems="center">
-      <Text fontSize="2xl">Nuevos artesanos</Text>
+    <Box p="4" gap="10" alignItems="center" justifyContent={"center"}>
+      <Text fontSize="2xl" textAlign={"center"}>Nuevos artesanos</Text>
       {loading ? (
-        <Box display="flex" justifyContent="center" alignItems="center" marginX={"20px"}>
+        <Box display="flex" justifyContent="center" alignItems="center">
           <Spinner size="lg" />
         </Box>
       ) : error ? (
@@ -45,7 +45,6 @@ function ArtisanConteiner() {
           flexWrap="wrap"
           justifyContent="space-between"
           gap="10"
-          marginX={"20px"}
         >
           {artisanData
             .reverse()
