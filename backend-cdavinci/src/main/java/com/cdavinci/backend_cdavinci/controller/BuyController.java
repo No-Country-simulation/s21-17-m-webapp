@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.cdavinci.backend_cdavinci.dto.buy.BuyProductResponseDTO;
 import com.cdavinci.backend_cdavinci.dto.buy.BuyRequestDTO;
 import com.cdavinci.backend_cdavinci.dto.buy.BuyResponseDTO;
 import com.cdavinci.backend_cdavinci.service.BuyService;
@@ -55,7 +56,7 @@ public class BuyController {
             description = "List of buys(sales) of a only one product"
     )
     @GetMapping("/buys/{idProduct}")
-    public List<BuyResponseDTO> getBuysByProductId(@PathVariable Long idProduct) {
+    public List<BuyProductResponseDTO> getBuysByProductId(@PathVariable Long idProduct) {
         return buyService.getBuysByIdProduct(idProduct);
     }
 

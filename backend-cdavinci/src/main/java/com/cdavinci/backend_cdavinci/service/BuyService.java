@@ -7,9 +7,11 @@ import org.springframework.web.server.ResponseStatusException;
 import com.cdavinci.backend_cdavinci.model.Buy;
 import com.cdavinci.backend_cdavinci.model.BuyProduct;
 import com.cdavinci.backend_cdavinci.model.Customer;
+import com.cdavinci.backend_cdavinci.model.Product;
 import com.cdavinci.backend_cdavinci.dto.buy.BuyRequestDTO;
 import com.cdavinci.backend_cdavinci.dto.buy.BuyResponseDTO;
 import com.cdavinci.backend_cdavinci.dto.buy.BuyProductRequestDTO;
+import com.cdavinci.backend_cdavinci.dto.buy.BuyProductResponseDTO;
 import com.cdavinci.backend_cdavinci.respository.BuyProductRepository;
 import com.cdavinci.backend_cdavinci.respository.BuyRepository;
 import com.cdavinci.backend_cdavinci.respository.CustomerRepository;
@@ -61,10 +63,10 @@ public class BuyService {
         return buildBuyResponseDTO(buy);
     }
 
-    public List<BuyResponseDTO> getBuysByIdProduct(Long idProduct) {
+    public List<BuyProductResponseDTO> getBuysByIdProduct(Long idProduct) {
         validateProductExists(idProduct);
-        List<Buy> buys = getBuysByProductIdFromRepository(idProduct);
-        return buys.stream().map(this::buildBuyResponseDTO)
+        List<BuyProduct> buyProducts = getBuysByProductIdFromRepository(idProduct);
+        return buyProducts.stream().map(this::buildBuyProductResponseDTO)
                 .collect(Collectors.toList());
     }     
 
@@ -99,15 +101,12 @@ public class BuyService {
 
     private void validateProductExists(Long idProduct) {
         if (!productRepository.existsById(idProduct)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         }
     }
 
-    private List<Buy> getBuysByProductIdFromRepository(Long idProduct) {
-        return buyProductRepository.findByProduct_IdProduct(idProduct).stream()
-                .map(BuyProduct::getBuy)
-                .distinct()
-                .collect(Collectors.toList());
+    private List<BuyProduct> getBuysByProductIdFromRepository(Long idProduct) {
+        return buyProductRepository.findByProduct_IdProduct(idProduct);
     }
 
     private Customer getCustomerOrThrow(Long idCustomer) {
@@ -128,5 +127,18 @@ public class BuyService {
         buyResponseDTO.setBuyDate(buy.getBuyDate());
         buyResponseDTO.setAmount(buy.getAmount());
         return buyResponseDTO;
+    }
+
+
+    private BuyProductResponseDTO buildBuyProductResponseDTO(BuyProduct buyProduct){
+        Buy buy = buyProduct.getBuy();
+        Product product = buyProduct.getProduct();
+        BuyProductResponseDTO buyProductResponseDTO = new BuyProductResponseDTO();
+        buyProductResponseDTO.setIdBuy(buy.getIdBuy());
+        buyProductResponseDTO.setIdProduct(product.getIdProduct());
+        buyProductResponseDTO.setName(product.getName());
+        buyProductResponseDTO.setPrice(product.getPrice());
+        buyProductResponseDTO.setQuantity(buyProduct.getQuantity());
+        return buyProductResponseDTO;
     }
 }
