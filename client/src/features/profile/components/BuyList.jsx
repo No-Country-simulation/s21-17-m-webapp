@@ -13,7 +13,7 @@ export const BuyList = ({ customerSelected }) => {
       try {
         if (!customerSelected) return;
         setLoading(true);
-        const buysData = await getBuysByCustomerId(customerSelected);        
+        const buysData = await getBuysByCustomerId(customerSelected);
         setBuys(buysData);
       } catch (error) {
         console.error(error);
@@ -62,11 +62,11 @@ export const BuyList = ({ customerSelected }) => {
         striped
         bg={"neutral"}
         variant="striped"
-        border={"1px solid #04041a"} 
+        border={"1px solid #04041a"}
       >
-        <Table.Header 
-          bg="primary" 
-          borderBottom={"1px solid #04041a"} 
+        <Table.Header
+          bg="primary"
+          borderBottom={"1px solid #04041a"}
           height={"35px"}
           fontSize={"xl"}
         >
@@ -77,12 +77,12 @@ export const BuyList = ({ customerSelected }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {buys.map((buy) => (
+          {buys.map((buy, index) => (
             <Table.Row
               key={buy.idBuy}
               sx={{
                 backgroundColor: index % 2 === 0 ? "#ffe0b2" : "#f2f2b2",
-                borderBottom: "1px solid  #04041a", 
+                borderBottom: "1px solid  #04041a",
               }}
             >
               <Table.Cell>{buy.idBuy}</Table.Cell>
@@ -92,7 +92,7 @@ export const BuyList = ({ customerSelected }) => {
               <Table.Cell>${buy.amount.toFixed(2)}</Table.Cell>
               <Table.Cell>
                 <Table.Root>
-                <Table.Header bg="primary" borderBottom={"1px solid #04041a"}>
+                  <Table.Header bg="primary" borderBottom={"1px solid #04041a"}>
                     <Table.Row>
                       <Table.ColumnHeader>Producto</Table.ColumnHeader>
                       <Table.ColumnHeader>Precio</Table.ColumnHeader>
@@ -100,7 +100,7 @@ export const BuyList = ({ customerSelected }) => {
                   </Table.Header>
                   <Table.Body>
                     {buy.purchasedProducts.map((product) => (
-                      <Table.Row 
+                      <Table.Row
                         key={product.idProduct}
                         borderBottom={"1px solid #04041a"}
                       >
@@ -114,10 +114,10 @@ export const BuyList = ({ customerSelected }) => {
             </Table.Row>
           ))}
         </Table.Body>
-        <Table.Footer 
+        <Table.Footer
           bg="primary"
-          textAlign={"center"} 
-          height={"40px"} 
+          textAlign={"center"}
+          height={"40px"}
           borderTop={"1px solid #04041a"}
           fontSize={"xl"}
         >
