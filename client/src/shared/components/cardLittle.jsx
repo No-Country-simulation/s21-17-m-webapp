@@ -73,6 +73,7 @@ function CardLittle({ title, description, stock, imageUrl, price, id }) {
       position="relative"
       opacity={isStockAvailable ? 1 : 0.5}
       _disabled={!isStockAvailable}
+      bg="neutral.200"
     >
       {user && userType === "common" && (
         <IconButton

@@ -1,4 +1,5 @@
 import api from "../../../app/config/api";
+import { getProductsByBuyId } from "../../products/services/products"; 
 
 export const getCustomersByUserId = async (userId) => {
   try {
@@ -40,12 +41,20 @@ export const deleteCustomer = async (customerId) => {
   }
 };
 
+
 export const getBuysByCustomerId = async (customerId) => {
   try {
     const response = await api.get(`/buy/listmadeby/${customerId}`);
-    return response.data;
+    const buys = response.data;
+
+    for (let buy of buys) {
+      const products = await getProductsByBuyId(buy.idBuy); 
+      buy.purchasedProducts = products; 
+    }
+
+    return buys; 
   } catch (error) {
-    console.error("Error al obtener las compras del cliente:", error);
+    console.error("Error al obtener las compras y productos:", error);
     throw error;
   }
 };

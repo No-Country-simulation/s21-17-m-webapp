@@ -23,7 +23,7 @@ export const Artisans = () => {
   }, []);
 
   return (
-    <Box bg="primary.50" p={8} borderRadius="lg" boxShadow="lg">
+    <Box p={8} borderRadius="lg" boxShadow="lg" >
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Artesanos
       </Text>
@@ -35,7 +35,7 @@ export const Artisans = () => {
       {artisans && (
         <Flex
           flexWrap="wrap"
-          justifyContent="center"
+          justifyContent={"space-around"}
           alignItems="center"
           gap={6}
           width="100%"
