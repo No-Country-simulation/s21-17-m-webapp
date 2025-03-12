@@ -1,7 +1,7 @@
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 import { getBuysByCustomerId } from "../services/customer";
-import { Table, Text, Spinner, Box } from "@chakra-ui/react";
+import { Table, Text, Spinner, Box, useBreakpoint } from "@chakra-ui/react";
 
 export const BuyList = ({ customerSelected }) => {
   const [buys, setBuys] = useState(null);
@@ -56,15 +56,20 @@ export const BuyList = ({ customerSelected }) => {
   }
 
   return (
-    <Box p={4} bg={"neutral"}>
+    <Box display={{ base: "block", md: "table" }} mt={2}>
       <Table.Root
         size="sm"
         striped
         bg={"neutral"}
         variant="striped"
-        colorScheme="primary"
+        border={"1px solid #04041a"} 
       >
-        <Table.Header>
+        <Table.Header 
+          bg="primary" 
+          borderBottom={"1px solid #04041a"} 
+          height={"35px"}
+          fontSize={"xl"}
+        >
           <Table.Row>
             <Table.ColumnHeader>Factura</Table.ColumnHeader>
             <Table.ColumnHeader>Fecha de Compra</Table.ColumnHeader>
@@ -73,7 +78,13 @@ export const BuyList = ({ customerSelected }) => {
         </Table.Header>
         <Table.Body>
           {buys.map((buy) => (
-            <Table.Row key={buy.idBuy}>
+            <Table.Row
+              key={buy.idBuy}
+              sx={{
+                backgroundColor: index % 2 === 0 ? "#ffe0b2" : "#f2f2b2",
+                borderBottom: "1px solid  #04041a", 
+              }}
+            >
               <Table.Cell>{buy.idBuy}</Table.Cell>
               <Table.Cell>
                 {new Date(buy.buyDate).toLocaleDateString()}
@@ -81,7 +92,7 @@ export const BuyList = ({ customerSelected }) => {
               <Table.Cell>${buy.amount.toFixed(2)}</Table.Cell>
               <Table.Cell>
                 <Table.Root>
-                  <Table.Header>
+                <Table.Header bg="primary" borderBottom={"1px solid #04041a"}>
                     <Table.Row>
                       <Table.ColumnHeader>Producto</Table.ColumnHeader>
                       <Table.ColumnHeader>Precio</Table.ColumnHeader>
@@ -89,7 +100,10 @@ export const BuyList = ({ customerSelected }) => {
                   </Table.Header>
                   <Table.Body>
                     {buy.purchasedProducts.map((product) => (
-                      <Table.Row key={product.idProduct}>
+                      <Table.Row 
+                        key={product.idProduct}
+                        borderBottom={"1px solid #04041a"}
+                      >
                         <Table.Cell>{product.name}</Table.Cell>
                         <Table.Cell>${product.price.toFixed(2)}</Table.Cell>
                       </Table.Row>
@@ -100,7 +114,13 @@ export const BuyList = ({ customerSelected }) => {
             </Table.Row>
           ))}
         </Table.Body>
-        <Table.Footer>
+        <Table.Footer 
+          bg="primary"
+          textAlign={"center"} 
+          height={"40px"} 
+          borderTop={"1px solid #04041a"}
+          fontSize={"xl"}
+        >
           <Table.Row>
             <Table.Cell colSpan={3}>Total de compras: {buys.length}</Table.Cell>
           </Table.Row>
