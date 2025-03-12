@@ -1,11 +1,18 @@
 package com.cdavinci.backend_cdavinci.respository;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cdavinci.backend_cdavinci.model.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer>{
-    
+public interface UserRepository extends JpaRepository<User, Long>{
+
+   
+    Optional<User> findByGmail(String gmail); 
+    boolean existsByGmail(String gmail);
+
+
 }
