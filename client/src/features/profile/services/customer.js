@@ -44,7 +44,7 @@ export const deleteCustomer = async (customerId) => {
 
 export const getBuysByCustomerId = async (customerId) => {
   try {
-    const response = await api.get(`/buy/details/${customerId}`);
+    const response = await api.get(`/buy/listmadeby/${customerId}`);
     const buys = response.data;
 
     for (let buy of buys) {

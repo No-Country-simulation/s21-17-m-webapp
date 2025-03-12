@@ -82,7 +82,7 @@ function NavBar() {
           )}
           {userType === "artisan" && (
             <>
-              <Link href="">Mis ventas</Link>
+              <Link href="/sales">Mis ventas</Link>
               <Link href="/profile">Perfil</Link>
             </>
           )}
@@ -153,7 +153,7 @@ function NavBar() {
           )}
           {userType === "artisan" && (
             <>
-              <Link href="">Mis ventas</Link>
+              <Link href="/sales">Mis ventas</Link>
               <Link href="/profile">Perfil</Link>
             </>
           )}
