@@ -23,7 +23,7 @@ export const Artisans = () => {
   }, []);
 
   return (
-    <Box p={8} borderRadius="lg" boxShadow="lg" bg="neutral">
+    <Box p={8} borderRadius="lg" boxShadow="lg" bg="neutral.400">
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Artesanos
       </Text>
