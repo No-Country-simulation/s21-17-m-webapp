@@ -35,7 +35,7 @@ export const Artisans = () => {
       {artisans && (
         <Flex
           flexWrap="wrap"
-          justifyContent="center"
+          justifyContent={"space-around"}
           alignItems="center"
           gap={6}
           width="100%"

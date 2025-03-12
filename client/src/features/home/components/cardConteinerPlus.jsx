@@ -29,8 +29,8 @@ function CardConteinerPlus() {
   }, []);
 
   return (
-    <Box p="4" gap="10">
-      <Text fontSize="2xl"> Productos destacados</Text>
+    <Box p="4" gap="10" >
+      <Text fontSize="2xl" textAlign={"center"}> Productos destacados</Text>
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" mt="20">
           <Spinner size="lg" />
@@ -43,7 +43,7 @@ function CardConteinerPlus() {
         <Box
           display="flex"
           flexWrap="wrap"
-          justifyContent="space-between"
+          justifyContent={"space-around"}
           gap="10"
         >
           {productData.reverse().map((product) => (
