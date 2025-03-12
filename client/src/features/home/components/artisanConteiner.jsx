@@ -32,11 +32,11 @@ function ArtisanConteiner() {
     <Box p="4" gap="10" alignItems="center">
       <Text fontSize="2xl">Nuevos artesanos</Text>
       {loading ? (
-        <Box display="flex" justifyContent="center" alignItems="center" mt="20">
+        <Box display="flex" justifyContent="center" alignItems="center" marginX={"20px"}>
           <Spinner size="lg" />
         </Box>
       ) : error ? (
-        <Text color="secondary" textAlign="center" mt="4">
+        <Text color="secondary" textAlign="center" >
           {error}
         </Text>
       ) : (
@@ -45,6 +45,7 @@ function ArtisanConteiner() {
           flexWrap="wrap"
           justifyContent="space-between"
           gap="10"
+          marginX={"20px"}
         >
           {artisanData
             .reverse()
