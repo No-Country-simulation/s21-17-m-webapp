@@ -5,6 +5,8 @@
 Para trabajar en local es importante tener en cuenta!:
 
 Agregar el archivo: **.env.properties** en la carpeta resources. No! se subirá al repo solo estará en local.
+Modificar de  **.env.properties.example**
+
 ``` bash 
 .env.properties
 ```
